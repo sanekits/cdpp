@@ -6,7 +6,7 @@ cdpp_help() {
     cat <<EOF
 cdpp enhances the bash 'cd' command with more flexibility and efficiency.
 Provides:
-
+--------------
 cd            Wraps the built-in 'cd' command
 to            Extended dir-change tool using disk indexes (has it's own --help)
 .-            Return to previous dir (alias)
@@ -16,6 +16,7 @@ cdpath        Print current \$CDPATH value
 cdpath_add    Add one or more dirs to CDPATH, default is PWD
 cdpath_reset  Restore shell-init value of \$CDPATH
 cdpp          Admin tool
+~/.cdpprc     Init file: see this for CDPATH guidance
 EOF
 }
 
@@ -57,15 +58,19 @@ cdpath() {
 }
 
 cdpath_add() {
-    local new_path
+    local new_path=
     while true; do
         new_path="$1"
         [[ -z $new_path ]] && new_path=$PWD;
         for pp in $(echo "$CDPATH" | tr ':' ' ');
         do
-            [[ "$pp" == "${new_path}" ]] && continue
+            [[ "$pp" == "${new_path}" ]] && {
+                # We already have this path:
+                [[ -z $2 ]] && break 2;
+                shift && continue 2;
+            }
         done;
-        CDPATH="${CDPATH}:${new_path}";
+        CDPATH="${CDPATH}:${new_path}"
         shift
         [[ -z $1 ]] && break
     done
