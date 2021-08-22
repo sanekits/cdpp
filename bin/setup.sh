@@ -48,7 +48,7 @@ shrc_fixup() {
     [[ $(type -t cdpp) == 'function' ]] && return
 
     (
-        [[ -f $HOME/.cdpprc ]] && cp ${tgt_dir}/cdpp/cdpprc ${HOME}/.cdpprc
+        [[ -f $HOME/.cdpprc ]] || cp ${tgt_dir}/cdpp/cdpprc ${HOME}/.cdpprc
         echo '[[ -n $PS1 && ' "-f ${tgt_dir}/cdpp/cdpp" ' ]] && source ' "${tgt_dir}/cdpp/cdpp" ' # Added by cdpp-setup.sh'
         echo
     ) >> ${HOME}/.bashrc
