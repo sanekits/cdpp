@@ -13,6 +13,7 @@
 #    5.  Add temporary dirs with `cdpath_add`: these will not survive a shell restart,
 #        but are handy for project-specific tweaks.
 
-CDPATH=.:${HOME}:/
+CDPATH_INIT=.:${HOME}:/
+CDPATH=${CDPATH_INIT}
 
 ##  Installed by cdpp-setup.sh

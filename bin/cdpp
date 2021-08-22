@@ -2,26 +2,67 @@
 # :vim filetype=sh:
 # Turbo-charging the humble 'cd' built-in
 
+cdpp_help() {
+    cat <<EOF
+cdpp enhances the bash 'cd' command with more flexibility and efficiency.
+
+cd            Wraps the built-in 'cd' command
+cdpath        Print current \$CDPATH value
+cdpath_add    Add one or more dirs to CDPATH, default is PWD
+cdpath_reset  Restore shell-init value of \$CDPATH
+tox           Extended dir-change tool using disk indexes
+EOF
+}
+
 cdpp() {
     while [[ -n $1 ]]; do
-        case $arg in
+        case $1 in
             -h|--help)
-                echo "Help!"
+                cdpp_help
+                return
                 ;;
             -v|--version)
                 cdpp-version.sh
+                return
+                ;;
+            *)
+                echo "Unknown argument: $1.  Just use 'cd' if you're trying to change directories."
+                false; return
                 ;;
         esac
         shift
     done
 }
 
-cd ()
-{
+cd() {
     ( builtin cd "$@" &> /dev/null ) && builtin cd "$@";
     [[ $? == 0 ]] && return;
     set -f;
     tox_w "$@"
+}
+
+cdpath() {
+    echo "CDPATH=$CDPATH"
+}
+
+cdpath_add() {
+    local new_path
+    while true; do
+        new_path="$1"
+        [[ -z $new_path ]] && new_path=$PWD;
+        for pp in $(echo "$CDPATH" | tr ':' ' ');
+        do
+            [[ "$pp" == "${new_path}" ]] && continue
+        done;
+        CDPATH="${CDPATH}:${new_path}";
+        shift
+        [[ -z $1 ]] && break
+    done
+    cdpath
+}
+
+cdpath_reset() {
+    CDPATH="${CDPATH_INIT}"
 }
 
 
