@@ -69,5 +69,6 @@ cdpath_reset() {
 
 [[ -n $PS1 ]] && {
     [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
+    export TOXHOME=${HOME}/.local/bin/cdpp
     [[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && source $HOME/.local/bin/cdpp/tox-completion.bash
 }
