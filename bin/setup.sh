@@ -37,7 +37,7 @@ path_fixup() {
     fi
     local profile=$HOME/.bash_profile
     [[ -f $profile ]] || profile=$HOME/.profile
-    echo 'export PATH=$HOME/.local/bin:$PATH # Added by cdpp setup.sh' >> ${profile} || die 202
+    echo 'export PATH=$HOME/.local/bin:$PATH # Added by cdpp-setup.sh' >> ${profile} || die 202
     echo "~/.local/bin added to your PATH." >&2
     reload_reqd=true
 }
@@ -48,7 +48,7 @@ shrc_fixup() {
     [[ $(type -t cdpp) == 'function' ]] && return
 
     (
-        echo '[[ -n $PS1 && ' "-f ${tgt_dir}/cdpp/cdpp" ' ]] && source ' "${tgt_dir}/cdpp/cdpp" ' # Added by cdpp setup.sh'
+        echo '[[ -n $PS1 && ' "-f ${tgt_dir}/cdpp/cdpp" ' ]] && source ' "${tgt_dir}/cdpp/cdpp" ' # Added by cdpp-setup.sh'
         echo
     ) >> ${HOME}/.bashrc
     echo "Your .bashrc has been updated." >&2
