@@ -63,7 +63,11 @@ cdpath_add() {
 
 cdpath_reset() {
     CDPATH="${CDPATH_INIT}"
+    cdpath
 }
 
 
-[[ -n $PS1  && -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
+[[ -n $PS1 ]] && {
+    [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
+    [[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && source $HOME/.local/bin/cdpp/tox-completion.bash
+}
