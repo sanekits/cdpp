@@ -7,10 +7,13 @@ cdpp_help() {
 cdpp enhances the bash 'cd' command with more flexibility and efficiency.
 
 cd            Wraps the built-in 'cd' command
+.-            Return to previous dir (alias)
+.p            Invoke 'popd'
+.3            Go up 3 levels in tree (alias)
+tox           Extended dir-change tool using disk indexes (has it's own --help)
 cdpath        Print current \$CDPATH value
 cdpath_add    Add one or more dirs to CDPATH, default is PWD
 cdpath_reset  Restore shell-init value of \$CDPATH
-tox           Extended dir-change tool using disk indexes
 EOF
 }
 
@@ -35,10 +38,15 @@ cdpp() {
 }
 
 cd() {
-    ( builtin cd "$@" &> /dev/null ) && builtin cd "$@";
+    local use_pushd=true
+    [[ -d "$1" && "$1" != */* ]] && use_pushd=false
+    [[ "$1" == .. ]] && use_pushd=false
+    [[ $1 == --help ]] && { cdpp --help; return; }
+    ( builtin cd "$@" &> /dev/null ) && {
+        $use_pushd && builtin pushd "$@" >/dev/null || builtin cd "$@";
+    }
     [[ $? == 0 ]] && return;
-    set -f;
-    tox_w "$@"
+    set -f; tox_w "$@"
 }
 
 cdpath() {
@@ -66,10 +74,22 @@ cdpath_reset() {
     cdpath
 }
 
+cdpp_aliases() {
+    alias .p='popd'
+    alias .-='builtin cd -'
+    alias .1='builtin  cd ..'
+    alias .2='builtin pushd ../..'
+    alias .3='builtin pushd ../../..'
+    alias .4='builtin pushd ../../../..'
+    alias .5='builtin pushd ../../../../..'
+    alias .6='builtin pushd ../../../../../..'
+}
+
 
 [[ -n $PS1 ]] && {
     [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
     export TOXHOME=${HOME}/.local/bin/cdpp
     [[ $UID == 0 && -z $USER ]] && export USER=root
     [[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && source $HOME/.local/bin/cdpp/tox-completion.bash
+    cdpp_aliases
 }
