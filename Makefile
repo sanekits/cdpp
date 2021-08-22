@@ -10,7 +10,8 @@ publish: tox_borrow
 
 tox_borrow: tox_py_update $(tox_files)
 	# Copying tox-py essentials to bin for packaging
-	-command git add $(tox_files) && command git commit -m "Update tox_files"
+	command git add $(tox_files) 
+	command git commit -m "Update tox_files"
 
 tox_py_update: tox-py
 	cd tox-py && git pull

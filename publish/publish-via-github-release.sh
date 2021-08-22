@@ -21,6 +21,6 @@ if [[ -z $sourceMe ]]; then
 
     command mkdir -p ./tmp
 
-    command makeself.sh $PWD/bin $PWD/tmp/cdpp-setup-${version}.sh "cdpp ${version}" ./setup.sh  # [src-dir] [dest-file] [label] [setup-command]
+    command makeself.sh --base64 $PWD/bin $PWD/tmp/cdpp-setup-${version}.sh "cdpp ${version}" ./setup.sh  # [src-dir] [dest-file] [label] [setup-command]
     [[ $? -eq 0 ]] && echo "Done: upload $PWD/tmp/cdpp-setup-${version}.sh to Github release page"
 fi

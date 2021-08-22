@@ -25,3 +25,9 @@ ga bin/ && gc -m sync && make # commit and rebuild
 cd /c/Projects/progress-metrics.workspace/landlord # to landl
 #1629670151
 vimdiff ~/.local/bin/cdpp/cdpp ./  # compare with installed 
+lh clean; gpa bash_history only
+tig
+lh j
+lh j
+h
+ga bin/ && gc -m sync && make # commit and rebuild 
