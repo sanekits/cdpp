@@ -42,8 +42,7 @@ if [[ -f ${TOXHOME}/tox_core.py ]]; then
         if [[ ! -z $newDir ]]; then
             if [[ "${newDir:0:1}" != "!" ]]; then
                 # We're supposed to change to the dir identified:
-                history -s "cd $newDir # to $@"
-                tox_cd_enter "$newDir" "$@"
+                tox_cd_enter "$newDir"
             else
                 if [[ "${newDir:0:2}" == "!!" ]]; then
                     # A double !! means "run this"
@@ -63,7 +62,7 @@ if [[ -f ${TOXHOME}/tox_core.py ]]; then
     alias tog='set -f; tox_w -g'
     alias tor='set -f; tox_w --report td'
     alias tox='set -f;tox_w'
-    alias toz='koo() { tox_debugpy=1 tox_w "$@"; }; set -f; koo '
+    alias toz='set -f;tox_debugpy=1 tox_w'
     # function toz {
     #     set -f
     #     tox_debugpy=1 $ToxPython $TOXHOME/tox_core.py  "$@"  # Debugger invocation
