@@ -45,8 +45,7 @@ path_fixup() {
 shrc_fixup() {
     # We must ensure that .bashrc sources our cdpp script
     local tgt_dir="$1"
-    [[ $(type -t cdpp) == 'function' ]] && return
-
+    grep -q "Added by cdpp-setup.sh" 2>/dev/null && return
     (
         [[ -f $HOME/.cdpprc ]] || cp ${tgt_dir}/cdpp/cdpprc ${HOME}/.cdpprc
         echo '[[ -n $PS1 && ' "-f ${tgt_dir}/cdpp/cdpp" ' ]] && source ' "${tgt_dir}/cdpp/cdpp" ' # Added by cdpp-setup.sh'
