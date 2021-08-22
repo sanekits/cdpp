@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../localhist"
+		},
+		{
+			"path": "../../../home/lmatheson4/bin/tox-py"
+		}
+	],
+    "settings": {}
+}

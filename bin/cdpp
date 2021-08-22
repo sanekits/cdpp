@@ -1,0 +1,7 @@
+# cdpp
+# :vim filetype=sh:
+# Turbo-charging the humble 'cd' built-in
+
+cdpp() {
+    command cd "$@"
+}
