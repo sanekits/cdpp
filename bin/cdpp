@@ -3,5 +3,25 @@
 # Turbo-charging the humble 'cd' built-in
 
 cdpp() {
-    command cd "$@"
+    while [[ -n $1 ]]; do
+        case $arg in
+            -h|--help)
+                echo "Help!"
+                ;;
+            -v|--version)
+                cdpp-version.sh
+                ;;
+        esac
+        shift
+    done
 }
+
+cd ()
+{
+    ( builtin cd "$@" &> /dev/null ) && builtin cd "$@";
+    [[ $? == 0 ]] && return;
+    set -f;
+    tox_w "$@"
+}
+
+
