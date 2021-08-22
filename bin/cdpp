@@ -25,3 +25,4 @@ cd ()
 }
 
 
+[[ -n $PS1  && -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
