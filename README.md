@@ -44,5 +44,8 @@ user@laptop$ cd some/temp/dir && ./cdpp-setup-<version>.sh
 - `cd --help` can be used for quick command / option reminders
 - `cdpath`, `cdpath_add`, and `cdpath_reset` streamline maintenance of `CDPATH`
 
-
+## Tips:
+- If you think `cd` is doing the wrong thing, run `builtin cd <args>` to see if `bash` agrees with you.
+- `to` has its own `--help` and can be used independently of `cd++`
+- The comments in `~/.cdpprc` can help you optimize for your working preferences.
 
