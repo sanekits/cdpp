@@ -46,7 +46,7 @@ cd() {
     [[ $# == 0 ]] && { builtin cd; return; }
     local use_pushd=true
     [[ -d "$1" && "$1" != */* ]] && use_pushd=false
-    [[ "$1" == .. ]] && use_pushd=false
+    [[ "$1" =~ (\.\..*)|(.*\-[LPe@]+) ]] && use_pushd=false
     [[ $1 == --help ]] && { cdpp --help; return; }
     ( builtin cd "$@" &> /dev/null ) && {
         $use_pushd && builtin pushd "$@" >/dev/null || builtin cd "$@";
