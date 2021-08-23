@@ -36,7 +36,7 @@ user@laptop$ cd some/temp/dir && ./cdpp-setup-<version>.sh
 - `cd /usr/bin` --> Nothing new here.  `cd` still works as expected, whenever practical.
 - `cd Down<tab>` --> Issued from 10 levels deep, let's go up to **~/Downloads** without typing the `~/` or the full dir name.  Let `CDPATH` and autocomplete do what they're good at.
 - `.3` --> Don't ever type `../../../` again.  There's aliases for `.1` thru `.6`.  *(Why isn't this built-in to `bash`?)*
-- `cd site nsmith` --> For more obscure *(but indexed!)* project-specific dirs, first do a smart search for `*site*` and then another smart search for the sub-indexed directory matching `*nsmith*`.  You can have as many indexes as you like the default top-level index is `~/.tox-index`.  You decide what gets indexed. If `cd` can't resolve its argument with `CDPATH`, it forwards the command to `tox`, which is a python-powered index search and maintenance utility.<br />  If `tox` finds multiple candidate matches, they're presented to the user for quick-pick menu selection.
+- `cd site nsmith` --> For more obscure *(but indexed!)* project-specific dirs, first do a smart search for `*site*` and then another smart search for the sub-indexed directory matching `*nsmith*`.  You can have as many indexes as you like.<br />The default top-level index is `~/.tox-index`.  You decide what gets indexed. If `cd` can't resolve its argument with `CDPATH`, it forwards the command to `tox`, which is a python-powered index search and maintenance utility.<br />  If `tox` finds multiple candidate matches, they're presented to the user for quick-pick menu selection.
 
 ## Also:
 
