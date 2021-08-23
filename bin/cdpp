@@ -15,7 +15,8 @@ to            Extended dir-change tool using disk indexes (has it's own --help)
 cdpath        Print current \$CDPATH value
 cdpath_add    Add one or more dirs to CDPATH, default is PWD
 cdpath_reset  Restore shell-init value of \$CDPATH
-cdpp          Admin tool
+cdpp          Admin tool:
+    --help, --version
 ~/.cdpprc     Init file: see this for CDPATH guidance
 EOF
 }
