@@ -44,14 +44,17 @@ path_fixup() {
 
 shrc_fixup() {
     # We must ensure that .bashrc sources our cdpp script
-    local tgt_dir="$1"
-    grep -q "Added by cdpp-setup.sh" ${HOME}/.bashrc 2>/dev/null && return
+    #grep -q "Added by cdpp-setup.sh" ${HOME}/.bashrc 2>/dev/null && return
+    [[ -f ${HOME}/.cdpprc ]] || cp ${HOME}/.local/bin/cdpp/cdpprc ${HOME}/.cdpprc
+    local vk=$( /bin/bash -ic 'type -t cdpp 2>/dev/null' )
+    if [[ $vk == *function ]]; then
+        return
+    fi
+
     (
-        [[ -f $HOME/.cdpprc ]] || cp ${tgt_dir}/cdpp/cdpprc ${HOME}/.cdpprc
-        echo '[[ -n $PS1 && ' "-f ${tgt_dir}/cdpp/cdpp" ' ]] && source ' "${tgt_dir}/cdpp/cdpp" ' # Added by cdpp-setup.sh'
+        echo '[[ -n $PS1 && -f ${HOME}/.local/bin/cdpp/cdpp ]] && source ${HOME}/.local/bin/cdpp/cdpp # Added by cdpp-setup.sh'
         echo
     ) >> ${HOME}/.bashrc
-    echo "Your .bashrc has been updated." >&2
     reload_reqd=true
 }
 
@@ -68,8 +71,9 @@ main() {
     rm -rf ./* || die "102"
     cp -r ${Scriptdir}/* ./ || die "failed copying from ${Scriptdir} to $PWD"
     cd .. # Now we're in .local/bin
+    ln -sf ./cdpp/cdpp-version.sh ./
     path_fixup "$PWD" || die "102"
-    shrc_fixup "$PWD" || die "104"
+    shrc_fixup || die "104"
     $reload_reqd && echo "Shell reload required ('bash -l')" >&2
 }
 
