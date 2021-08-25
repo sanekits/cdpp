@@ -88,11 +88,11 @@ cdpp_aliases() {
     alias .p='popd'
     alias .-='builtin cd -'
     alias .1='builtin  cd ..'
-    alias .2='builtin pushd ../..'
-    alias .3='builtin pushd ../../..'
-    alias .4='builtin pushd ../../../..'
-    alias .5='builtin pushd ../../../../..'
-    alias .6='builtin pushd ../../../../../..'
+    alias .2='builtin pushd ../.. >/dev/null'
+    alias .3='builtin pushd ../../.. >/dev/null'
+    alias .4='builtin pushd ../../../.. >/dev/null'
+    alias .5='builtin pushd ../../../../.. >/dev/null'
+    alias .6='builtin pushd ../../../../../.. >/dev/null'
 }
 
 
