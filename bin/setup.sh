@@ -62,19 +62,19 @@ shrc_fixup() {
 main() {
     reload_reqd=false
     if [[ ! -d $HOME/.local/bin/cdpp ]]; then
-        mkdir -p $HOME/.local/bin/cdpp || die "Failed creating $HOME/.local/bin/cdpp"
+        command mkdir -p $HOME/.local/bin/cdpp || die "Failed creating $HOME/.local/bin/cdpp"
     fi
     if [[ $(inode $Script) -eq $(inode ${HOME}/.local/bin/cdpp/setup.sh) ]]; then
         die "cannot run setup.sh from ${HOME}/.local/bin"
     fi
-    cd ${HOME}/.local/bin/cdpp || die "101"
-    rm -rf ./* || die "102"
-    cp -r ${Scriptdir}/* ./ || die "failed copying from ${Scriptdir} to $PWD"
-    cd .. # Now we're in .local/bin
-    ln -sf ./cdpp/cdpp-version.sh ./
+    builtin cd ${HOME}/.local/bin/cdpp || die "101"
+    command rm -rf ./* || die "102"
+    command cp -r ${Scriptdir}/* ./ || die "failed copying from ${Scriptdir} to $PWD"
+    builtin cd .. # Now we're in .local/bin
+    command ln -sf ./cdpp/cdpp-version.sh ./
     path_fixup "$PWD" || die "102"
     shrc_fixup || die "104"
-    $reload_reqd && echo "Shell reload required ('bash -l')" >&2
+    $reload_reqd && builtin echo "Shell reload required ('bash -l')" >&2
 }
 
 [[ -z $sourceMe ]] && main "$@"

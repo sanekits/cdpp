@@ -1,9 +1,9 @@
-( cd tmp; ./cdpp-setup-0.4.1.sh ) # install locally
-ga bin/ && gc -m sync && make # commit and rebuild 
-ga bin/ && gc -m sync ; make # commit and rebuild 
-( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
-( cd tmp; ./cdpp-setup-*.sh ) # install locally
 ga bin/ && gc -m sync && make # commit and rebuild && !823
+( cd tmp; ./cdpp-setup-*.sh ) # install locally
+( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
+ga bin/ && gc -m sync ; make # commit and rebuild 
+ga bin/ && gc -m sync && make # commit and rebuild 
+( cd tmp; ./cdpp-setup-0.4.1.sh ) # install locally
 #1629596764
 echo "The plan here is to integrate cdpath stuff with tox-py into a single tool named 'cd++' (cdpp), and use makeself.sh to install the whole thing." #
 #1629637372
@@ -24,30 +24,3 @@ cdpath_add /foobar /rebar # test
 cd /c/Projects/progress-metrics.workspace/landlord # to landl
 #1629670151
 vimdiff ~/.local/bin/cdpp/cdpp ./  # compare with installed 
-lh clean; gpa "Filter for cd -P/-L/-e/-@"
-git push
-lr
-make
-cd tmp
-lr
-./cdpp-setup-0.4.1.sh 
-exec bash
-cd
-lr
-cd journal
-cd
-cd bin
-cd journal
-lr
-cd data
-lr
-cd win-profile
-clear
-cd
-cd .ssh
-cd bin
-cd .ssh
-cd /home/lmatheson4/win-profile/.ssh # to .ssh
-cd unix
-cd /c/Projects/unix.workspace # to unix
-exit
