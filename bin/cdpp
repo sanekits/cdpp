@@ -97,10 +97,20 @@ cdpp_aliases() {
 }
 
 dirs() {
+    local pick; local dd
+    [[ $1 =~ ^[1-9] ]] && { pick=$1; shift; }
     [[ $# -gt -0 ]] && { builtin dirs "$@"; return; }
     set -- $( IFS=$'\n'; builtin dirs | command tr ' ' '\n' | sort -u ) 
+    [[ -n $pick ]] && {
+        shift $(( $pick - 1 ))
+        [[ "$1" == "${PWD}" ]] && return;
+        builtin pushd "$1" >/dev/null
+        return
+    }
+
     select dd;  do
-        builtin cd "${dd}"
+        [[ ${dd} == ${PWD} ]] && return;
+        builtin pushd "${dd}" >/dev/null
         return
     done
 }
