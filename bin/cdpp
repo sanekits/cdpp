@@ -98,7 +98,7 @@ cdpp_aliases() {
 
 dirs() {
     [[ $# -gt -0 ]] && { builtin dirs "$@"; return; }
-    set -- $( IFS=$'\n'; builtin dirs ) 
+    set -- $( IFS=$'\n'; builtin dirs | command tr ' ' '\n' | sort -u ) 
     select dd;  do
         builtin cd "${dd}"
         return
