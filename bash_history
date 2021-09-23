@@ -1,9 +1,8 @@
-ga bin/ && gc -m sync && make # commit and rebuild && !823
-( cd tmp; ./cdpp-setup-*.sh ) # install locally
-( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
-ga bin/ && gc -m sync ; make # commit and rebuild 
-ga bin/ && gc -m sync && make # commit and rebuild 
 ( cd tmp; ./cdpp-setup-0.4.1.sh ) # install locally
+ga bin/ && gc -m sync ; make # commit and rebuild 
+( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
+( cd tmp; ./cdpp-setup-*.sh ) # install locally
+ga bin/ && gc -m sync && make # commit and rebuild && !823
 #1629596764
 echo "The plan here is to integrate cdpath stuff with tox-py into a single tool named 'cd++' (cdpp), and use makeself.sh to install the whole thing." #
 #1629637372
@@ -24,3 +23,7 @@ cdpath_add /foobar /rebar # test
 cd /c/Projects/progress-metrics.workspace/landlord # to landl
 #1629670151
 vimdiff ~/.local/bin/cdpp/cdpp ./  # compare with installed 
+#1632391667
+{ oldPS1="$PS1"; unset PS1; source /c/Projects/cdpp/bin/cdpp; PS1="$oldPS1"; } # How to source cdpp from canon without reinstalling anything persistent
+#1632391730
+# Added dirs() wrapper in cdpp

@@ -18,6 +18,7 @@ cdpath_reset  Restore shell-init value of \$CDPATH
 cdpp          Admin tool:
     --help, --version
 ~/.cdpprc     Init file: see this for CDPATH guidance
+dirs          Wraps builtin dirs to provide menu go-to
 EOF
 }
 
@@ -93,6 +94,15 @@ cdpp_aliases() {
     alias .4='builtin pushd ../../../.. >/dev/null'
     alias .5='builtin pushd ../../../../.. >/dev/null'
     alias .6='builtin pushd ../../../../../.. >/dev/null'
+}
+
+dirs() {
+    [[ $# -gt -0 ]] && { builtin dirs "$@"; return; }
+    set -- $( IFS=$'\n'; builtin dirs ) 
+    select dd;  do
+        builtin cd "${dd}"
+        return
+    done
 }
 
 
