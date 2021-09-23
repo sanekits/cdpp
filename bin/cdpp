@@ -85,7 +85,7 @@ cdpath_reset() {
 }
 
 cdpp_aliases() {
-    alias .p='popd'
+    alias .p='popd &>/dev/null'
     alias .-='builtin cd -'
     alias .1='builtin  cd ..'
     alias .2='builtin pushd ../.. >/dev/null'
