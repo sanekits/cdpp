@@ -100,7 +100,7 @@ dirs() {
     local pick; local dd
     [[ $1 =~ ^[1-9] ]] && { pick=$1; shift; }
     [[ $# -gt -0 ]] && { builtin dirs "$@"; return; }
-    set -- $( IFS=$'\n'; builtin dirs | command tr ' ' '\n' | sort -u ) 
+    set -- $( IFS=$'\n'; builtin dirs |  command tr ' ' '\n' | command sed -e "s@\~@$HOME@" | sort -u ) 
     [[ -n $pick ]] && {
         shift $(( $pick - 1 ))
         [[ "$1" == "${PWD}" ]] && return;
@@ -108,11 +108,31 @@ dirs() {
         return
     }
 
-    select dd;  do
-        [[ ${dd} == ${PWD} ]] && return;
-        builtin pushd "${dd}" >/dev/null
-        return
+    keys=( {0..9} {a..p} {r..z} {A..P} {R..Z} )
+    local ndx=-1
+    for dd;  do
+        (( ndx++ ))
+        echo -en "${dd} \033[;31m${keys[$ndx]}"
+        [[ $dd == '~' ]] && dd=$HOME
+        [[ ${dd} == ${PWD} ]] && echo -en "\033[;32m <-- cwd"
+        echo -e "\033[;0m"
     done
+
+    local vkeys="${keys[@]}"
+    vkeys=${vkeys// }  # Remove spaces
+    
+     local vdirs=( $@ )
+     while true; do
+         read -n 1 -p ":: Select target dir: " selection
+         [[ -z $selection ]] && return
+         [[ $selection =~ [qQ] ]] && return
+         local prefix="${vkeys%${selection}*}"
+         local pos="${#prefix}"
+         [[ $pos -ge  ${#vdirs[@]} ]] && { echo; continue; }
+         xdir=${vdirs[$pos]}
+         [[ $xdir == '~' ]] && xdir=$HOME
+         pushd $xdir &>/dev/null && { builtin history -s "cd $xdir"; return; }
+     done
 }
 
 
