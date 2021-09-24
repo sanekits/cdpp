@@ -1,8 +1,8 @@
-( cd tmp; ./cdpp-setup-0.4.1.sh ) # install locally
-ga bin/ && gc -m sync ; make # commit and rebuild 
-( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
-( cd tmp; ./cdpp-setup-*.sh ) # install locally
 ga bin/ && gc -m sync && make # commit and rebuild && !823
+( cd tmp; ./cdpp-setup-*.sh ) # install locally
+( cd tmp; ./cdpp-setup-0.4.0.sh ) # install locally
+ga bin/ && gc -m sync ; make # commit and rebuild 
+( cd tmp; ./cdpp-setup-0.4.1.sh ) # install locally
 #1629596764
 echo "The plan here is to integrate cdpath stuff with tox-py into a single tool named 'cd++' (cdpp), and use makeself.sh to install the whole thing." #
 #1629637372
@@ -18,12 +18,22 @@ docker run --name cdppx -v `pwd`:/workarea -w /workarea --rm -it  artprod.dev.bl
 #1629664522
 # cdpp has passed Docker smoke tests on basic functionality
 #1629668207
-cdpath_add /foobar /rebar # test
-#1629669710
 cd /c/Projects/progress-metrics.workspace/landlord # to landl
 #1629670151
 vimdiff ~/.local/bin/cdpp/cdpp ./  # compare with installed 
-#1632391667
-{ oldPS1="$PS1"; unset PS1; source /c/Projects/cdpp/bin/cdpp; PS1="$oldPS1"; } # How to source cdpp from canon without reinstalling anything persistent
 #1632391730
 # Added dirs() wrapper in cdpp
+#1632394512
+pushd /etc; pushd /usr/bin; pushd /var/log; # Add some test content to DIRSTACK for testing
+#1632446795
+#1632447646
+echo ${#kx%c*} # Remove everything following letter 'c'
+#1632449326
+pushd /etc; pushd /usr/bin; pushd /var/log; pushd /etc; # Add some test content to DIRSTACK for testing
+#1632449414
+echo ${#1}  # Yes you can get length of positional args
+#1632449909
+{ oldPS1="$PS1"; unset PS1; source /c/Projects/cdpp/bin/cdpp; PS1="$oldPS1"; } # How to source cdpp from canon without reinstalling anything persistent
+#1632450099
+# Now dirs() is more involved: sorts the dir list, highlights the entry index keys, indicates the cwd, etc.
+
