@@ -42,7 +42,7 @@ if [[ -f ${TOXHOME}/tox_core.py ]]; then
         if [[ ! -z $newDir ]]; then
             if [[ "${newDir:0:1}" != "!" ]]; then
                 # We're supposed to change to the dir identified:
-                history -s "cd $newDir # to $@"
+                #history -s "cd $newDir # to $@"
                 tox_cd_enter "$newDir" "$@"
             else
                 if [[ "${newDir:0:2}" == "!!" ]]; then
