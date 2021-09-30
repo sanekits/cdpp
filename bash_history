@@ -36,4 +36,71 @@ echo ${#1}  # Yes you can get length of positional args
 { oldPS1="$PS1"; unset PS1; source /c/Projects/cdpp/bin/cdpp; PS1="$oldPS1"; } # How to source cdpp from canon without reinstalling anything persistent
 #1632450099
 # Now dirs() is more involved: sorts the dir list, highlights the entry index keys, indicates the cwd, etc.
-
+#1632481175
+# TODO stop adding history comment to routine dir changes
+#1632481182
+lh e
+#1632481208
+# TODO add '[e]dit' option to dirs()
+#1632394473
+vim cdpp
+#1632394473
+vim cdpp
+#1632745913
+clear
+#1632745921
+tw ren middleware
+#1632768140
+rosters
+#1632768155
+lc --down; lc --up
+#1632768155
+lc --down; lc --up
+#1632768155
+lc --down; lc --up
+#1633003361
+h g
+#1633003363
+hg
+#1633003370
+lh d
+#1633003373
+exec bash
+#1633003375
+lh d
+#1633003383
+lh d -c
+#1633003425
+# TODO: stop auto-logging 'to' entries
+#1633003451
+# TODO: add a 'cd --mark' to generate a hist record for cd to pwd
+#1633003510
+lr
+#1633003677
+cd bin
+#1633003682
+source ./cdpp
+#1633003684
+cdmark
+#1633003686
+h
+#1633003690
+cdmark
+#1633003707
+cd /c/Projects/cdpp/bin # cdmark
+#1633003708
+h
+#1633003744
+cd /c/Projects/cdpp/bin # cdmark
+#1633003748
+lr
+#1633003750
+cd
+#1633003763
+cd /c/Projects/wsl.HOME/bin-pub # cdmark
+#1633003763
+cd /c/Projects/journal # cdmark
+#1633003764
+h
+#1633003774
+lh d -c

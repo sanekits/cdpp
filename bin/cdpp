@@ -17,6 +17,8 @@ cdpath_add    Add one or more dirs to CDPATH, default is PWD
 cdpath_reset  Restore shell-init value of \$CDPATH
 cdpp          Admin tool:
     --help, --version
+cd --mark|-m,
+    cdmark    Mark current dir in bash history
 ~/.cdpprc     Init file: see this for CDPATH guidance
 dirs          Wraps builtin dirs to provide menu go-to
 EOF
@@ -43,9 +45,19 @@ cdpp() {
     done
 }
 
+cdmark() {
+    [[ $# -eq 0 ]] && set -- $PWD
+    for xdir; do
+        local xm="cd $(readlink -f ${xdir}) # cdmark"
+        builtin history -s "$xm"
+        echo "$xm"
+    done
+}
+
 cd() {
     [[ $# == 0 ]] && { builtin cd; return; }
     local use_pushd=true
+    [[ $1 =~ ^(-m)|(--mark)$ ]] && { shift; cdmark "$@" ; return; }
     [[ -d "$1" && "$1" != */* ]] && use_pushd=false
     [[ "$1" =~ (\.\..*)|(.*\-[LPe@]+) ]] && use_pushd=false
     [[ $1 == --help ]] && { cdpp --help; return; }

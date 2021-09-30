@@ -18,4 +18,6 @@
 CDPATH_INIT=.:${HOME}:/
 CDPATH=${CDPATH_INIT}
 
+alias cdm='cdmark'
+
 ##  Installed by cdpp-setup.sh
