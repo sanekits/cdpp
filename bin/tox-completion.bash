@@ -6,20 +6,7 @@
 # Requires: you have a ~/bin/tox-py directory containing tox_core.py, or
 # you set $TOXHOME=[dir] before sourcing tox-completion.bash
 
-python_ident() {
-    for py_candidate in python3.10 python3.9  python3.8 python3.7 python3.6 python3.5 python; do
-        which "${py_candidate}" &>/dev/null || continue
-        (
-            "$py_candidate" -c 'import termios; exit(0);' 2>/dev/null
-        ) || continue
-        which "$py_candidate"
-        return
-    done
-    echo "ERROR: unable to identify usable python candidate for tox-completion.bash" >&2
-    false
-}
-
-export ToxPython="$(python_ident)"
+export ToxPython=$(which python3.9 || which python3.8 || which python3.7 || which python3.6 || which python3.5 || which python)
 export LmHome=${LmHome:-$HOME}
 
 export TOXHOME=${TOXHOME:-${LmHome}/bin/tox-py}
