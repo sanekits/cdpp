@@ -16,7 +16,8 @@
 	},
 
     "mounts": [
-        "source=${localEnv:HOME},target=/host_home,type=bind,readonly"
+        "source=${localEnv:HOME},target=/host_home,type=bind,readonly",
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly"
     ],
 
 
