@@ -6,9 +6,12 @@ Script=$(readlink -f $0)
 
 cat >> /home/vscode/.bashrc <<-EOF
 alias lr='ls -lirta'
-alias gs='git status'
 set -o vi
-PATH=$PATH:/host_home/bin
+PATH=\$PATH:/host_home/bin
+[[ -f /host_home/bin/git.bashrc ]] && {
+    source /host_home/bin/git.bashrc
+    initGitStuff
+}
 [[ -f ~/.vshinit ]] || {
     echo "Your dotfiles were zapped by ${Script} during container build"
     touch ~/.vshinit
