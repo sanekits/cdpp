@@ -17,7 +17,7 @@ While it's true that a single directory change is usually quick and relatively p
 
 Run this in your `bash` shell:
 
-`ver=0.4.10; curl -Ls https://github.com/sanekits/cdpp/releases/download/${ver}/cdpp-setup-${ver}.sh > tmp${ver} && bash tmp${ver} && rm tmp${ver}`
+`ver=0.4.10; cd && curl -Ls https://github.com/sanekits/cdpp/releases/download/${ver}/cdpp-setup-${ver}.sh > tmp${ver} && bash tmp${ver} && rm tmp${ver}`
 
 
 ### Alternate method:
