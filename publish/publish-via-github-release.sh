@@ -22,7 +22,7 @@ if [[ -z $sourceMe ]]; then
     command mkdir -p ./tmp
 
     destFile=$PWD/tmp/cdpp-setup-${version}.sh
-    command makeself.sh --base64 $PWD/bin $destFile "cdpp ${version}" ./setup.sh  # [src-dir] [dest-file] [label] [setup-command]
+    command makeself.sh --base64 $PWD/bin $destFile "cdpp ${version}" ./setup.sh  || die # [src-dir] [dest-file] [label] [setup-command]
     (
         cd $(dirname $destFile) && ln -sf $(basename $destFile) latest.sh
     )
