@@ -15,7 +15,10 @@ While it's true that a single directory change is usually quick and relatively p
 
 ### Quick-paste method:
 
-`curl -Ls https://github.com/sanekits/cdpp/releases/download/0.4.10/cdpp-setup-0.4.10.sh | bash -`
+Run this in your `bash` shell:
+
+`ver=0.4.10; curl -Ls https://github.com/sanekits/cdpp/releases/download/${ver}/cdpp-setup-${ver}.sh > tmp${ver} && bash tmp${ver}`
+
 
 ### Alternate method:
 
