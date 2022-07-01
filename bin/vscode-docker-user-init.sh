@@ -24,5 +24,5 @@ PATH=\$PATH:/host_home/bin
 }
 EOF
 
-mkdir ~/bb-cert && cd ~/bb-cert && ln -sf /home/lmatheson4/bb-cert/bloomberg-root-ca.crt ./Bloomberg_LP_CORP_CLASS_1_ROOT_G2.pem || die 101
+mkdir ~/bb-cert && cd ~/bb-cert && ln -sf /etc/pki/ca-trust/source/anchors/bloomberg_rootca_v2.crt ./Bloomberg_LP_CORP_CLASS_1_ROOT_G2.pem || die 101
 
