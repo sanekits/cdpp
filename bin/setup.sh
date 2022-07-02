@@ -69,6 +69,7 @@ main() {
     fi
     builtin cd ${HOME}/.local/bin/cdpp || die "101"
     command rm -rf ./* || die "102"
+    [[ -d ${Scriptdir} ]] || die "bad Scriptdir [$Scriptdir]"
     command cp -r ${Scriptdir}/* ./ || die "failed copying from ${Scriptdir} to $PWD"
     builtin cd .. # Now we're in .local/bin
     command ln -sf ./cdpp/cdpp-version.sh ./
