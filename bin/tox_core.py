@@ -3,6 +3,7 @@ import os
 import sys
 import tty
 import termios
+from tempfile import NamedTemporaryFile
 from typing import Callable, List, Dict, Tuple
 from collections import OrderedDict
 
@@ -19,17 +20,6 @@ logging.info(f"tox startup, args={sys.argv}, cwd={os.getcwd()}, __file__={__file
 
 sys.path.insert(0, tox_core_root)
 
-''' Debugging tips:
-    1.  Set tox_debugpy=1 to enable debugpy listening on 5690
-    2.  Set break_on_main=1 to enable stop in __main__ block instead of here '''
-if int(os.environ.get('tox_debugpy',0)) > 0:
-    import debugpy
-    dbgport=int(os.environ.get('tox_debug_port','5690'))
-    debugpy.listen(('0.0.0.0',dbgport))
-    sys.stderr.write(f"Waiting for python debugpy client on port {dbgport}\n")
-    debugpy.wait_for_client()
-    if int(os.environ.get('break_on_main',0)) < 1:
-        breakpoint()
 
 from io import StringIO
 import re
@@ -210,10 +200,18 @@ class IndexContent(list):
 
     def write(self) ->None:
         # Write the index back to file
-        with open(self.path + ".tmp", "w") as f:
+        tmpname:str
+        with NamedTemporaryFile(mode='w', delete=False) as tmpfile:
+            tmpname=tmpfile.name
             for entry in sorted(self):
-                f.write("%s %d\n" % entry)
-        os.rename(self.path + ".tmp", self.path)
+                tmpfile.write("%s %d\n" % entry)
+        # We want to write back to the index without recreating the inode: this allows symlinks
+        # to behave without surprises:
+        with open(tmpname, "r") as infile, open(self.path,"r+") as outfile:
+            outfile.seek(0)
+            outfile.write(infile.read())
+            outfile.truncate()
+        os.remove(tmpname)
 
     def matchPaths(self, patterns:List[str], fullDirname:bool=False) ->List[str]:
         """ Returns matches of items in the index. """

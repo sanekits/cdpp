@@ -9,11 +9,17 @@
 			// Update 'VARIANT' to pick a Python version: 3, 3.10, 3.9, 3.8, 3.7, 3.6
 			// Append -bullseye or -buster to pin to an OS version.
 			// Use -bullseye variants on local on arm64/Apple Silicon.
-			"VARIANT": "3.7",
+			"VARIANT": "3.10",
 			// Options
 			"NODE_VERSION": "none"
 		}
 	},
+
+    "mounts": [
+        "source=${localEnv:HOME},target=/host_home,type=bind,readonly",
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly"
+    ],
+
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -43,6 +49,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "/workspaces/cdpp/bin/vscode-docker-user-init.sh",
+    "postStartCommand": "/workspaces/cdpp/bin/vscode-postStartCommand.sh",
     "shutdownAction": "none",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.

@@ -11,7 +11,28 @@ While it's true that a single directory change is usually quick and relatively p
 
 `cd ~/my-project/base/src/include/lxv/ver102-32992/imports/__generated__/foo`
 
-## How?
+## Installation:
+
+### Quick-paste method:
+
+Run this in your `bash` shell:
+
+`ver=0.4.10; cd && curl -Ls https://github.com/sanekits/cdpp/releases/download/${ver}/cdpp-setup-${ver}.sh > tmp${ver} && bash tmp${ver} && rm tmp${ver}`
+
+
+### Alternate method:
+
+- Download the [latest version of `cdpp-setup-x.y.z.sh`](https://github.com/sanekits/cdpp/releases/latest)
+
+- Run the self-extracting setup:
+```console
+user@laptop$ cd some/temp/dir && ./cdpp-setup-<version>.sh
+```
+
+### Configuration *(Optional)*
+- Examine and  customize `~/.cdpprc` for config details
+
+## How does it work?
 
 There's four strategies combined in `cd++`:
 
@@ -22,15 +43,6 @@ There's four strategies combined in `cd++`:
 
 For a user willing to do a bit of mindset-and-habit-changing, `cd++` can greatly reduce the effort spent moving around the file system, freeing up time for more interesting work.
 
-## Installation:
-
-- Download the latest version of `cdpp-setup-x.y.z.sh`
-
-- Run the self-extracting setup:
-```console
-user@laptop$ cd some/temp/dir && ./cdpp-setup-<version>.sh
-```
-- *(Optional)* Examine and  customize `~/.cdpprc`
 
 ## Usage examples:
 - `cd /usr/bin` --> Nothing new here.  `cd` still works as expected, whenever practical.
