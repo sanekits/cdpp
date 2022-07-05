@@ -20,6 +20,6 @@ ENV ContainerUser=vscode
 RUN [ -d /home/vscode ] || adduser --uid 1000 vscode
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-     && apt-get -y install --no-install-recommends git tree
+     && apt-get -y install --no-install-recommends git tree rsync
 
 

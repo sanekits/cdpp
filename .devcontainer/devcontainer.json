@@ -48,7 +48,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "/workspaces/cdpp/bin/vscode-docker-user-init.sh",
+    //"postCreateCommand": "/workspaces/cdpp/bin/vscode-docker-user-init.sh",
     "postStartCommand": "/workspaces/cdpp/bin/vscode-postStartCommand.sh",
     "shutdownAction": "none",
 
