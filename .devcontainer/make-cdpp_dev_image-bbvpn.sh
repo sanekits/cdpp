@@ -17,18 +17,26 @@ ENV http_proxy=http://proxy.bloomberg.com:81 \
 
 RUN yum install -y openssh-clients sudo
 
+WORKDIR /workspace
+
 EOF
 }
 
 bbvpnDockerfile  > bbvpn.dockerfile.tmp
+cat <<-EOF
+#----
+# Dockerfile contents:
+$(cat bbvpn.dockerfile.tmp)
+#----
+EOF
 
-docker build -f bbvpn.dockerfile.tmp . || die 101
+docker build -t no-registry.localhost/cdpp_dev_image:latest -f bbvpn.dockerfile.tmp . || die 101
 
-rm bbvpn.dockerfile.tmp
 
 xhash=$(docker images | grep -E 'artifact.*python.*base.*3\.10' | awk '{print $3}')
 [[ -n $xhash ]] || die 102
 
-docker tag $xhash cdpp_dev_image || die 103
+#docker tag $xhash cdpp_dev_image:latest || die 103
 
-
+rm bbvpn.dockerfile.tmp
+echo "Tagged image $xhash as cdpp_dev_image:latest  OK"
