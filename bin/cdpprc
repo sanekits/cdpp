@@ -14,6 +14,8 @@
 #        but are handy for project-specific tweaks.
 #    6.  Windows+WSL users might consider adding /c/Users/<WindowsUserName>, so that
 #         Downloads & Pictures, etc are close at hand
+#    7.  TAB-COMPLETION TOO SLOW?? Remove elements from $CDPATH_INIT in ~/.cdpprc, one at
+#        a time, until you get the right balance.
 
 CDPATH_INIT=.:${HOME}:/
 CDPATH=${CDPATH_INIT}

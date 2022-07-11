@@ -7,7 +7,8 @@
 #FROM artprod.dev.bloomberg.com/dpkg-python-development-base:3.7
 
 #  See 'make-cdpp_dev_image.*.sh' for creating this tag for FROM:
-FROM noregistry.localhost/cdpp_dev_image:latest
+#FROM cdpp_dev_image
+FROM cdpp_dev_image@9753397608ec
 
 ENV ContainerUser=vscode
 
