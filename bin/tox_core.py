@@ -1,8 +1,8 @@
 # tox_core.py
 import os
 import sys
-import tty
-import termios
+#import tty
+from termios_proxy import getraw_kbd, use_ansiterm
 from tempfile import NamedTemporaryFile
 from typing import Callable, List, Dict, Tuple
 from collections import OrderedDict
@@ -30,7 +30,12 @@ import shutil
 from subprocess import call
 from os.path import dirname, isdir, realpath, exists, isfile
 from os import getcwd, environ, stat
-from pwd import getpwuid
+use_pwuid=True
+try:
+    from pwd import getpwuid
+except:
+    # Windows does not have this feature conveniently enough:
+    use_pwuid=False
 from setutils import IndexedSet
 
 
@@ -88,16 +93,6 @@ def pwd() -> str:
     set"""
     return environ.get("PWD", getcwd())
 
-def getraw_kbd() -> str:
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        while True:
-            ch = sys.stdin.read(1)
-            yield ch
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 def dirContains(parent: str, unk: str) -> bool:
     """ Does parent dir contain unk dir? """
@@ -301,6 +296,8 @@ def ownerCheck(xdir:str, filename:str, only_mine:bool) -> bool:
     return True if rule check passes."""
     if not only_mine:
         return True
+    if not use_pwuid:
+        return True
     owner = stat("/".join((xdir, filename))).st_uid
     user = os.environ.get('USER','root')
     try:
@@ -463,14 +460,25 @@ def printMatchingEntries(mx, ix):
 
 # Colortable: https://www.lihaoyi.com/post/Ansi/Rainbow256.png
 def red(txt:str) -> str:
+    if not use_ansiterm:
+        return txt
     return f"\033[1;31m{txt}\033[;0m"
 def green(txt:str) -> str:
+    if not use_ansiterm:
+        return txt
     return f"\033[38;5;37m{txt}\033[;0m"
 def yellow(txt:str) -> str:
+    if not use_ansiterm:
+        return txt
     return f"\033[;33m{txt}\033[;0m"
+
 def grey(txt:str) -> str:
+    if not use_ansiterm:
+        return txt
     return f"\033[38;5;8m{txt}\033[;0m"
 def purp(txt:str) -> str:
+    if not use_ansiterm:
+        return txt
     return f"\033[38;5;13m{txt}\033[;0m"
 
 
@@ -493,7 +501,10 @@ def prompt(msg:str,defValue:str,handler:Callable[[str],str]) -> str:
     try:
         value=defValue
         while True:
-            sys.stderr.write(f"\033[99D \033[K \033[;33m{msg}:\033[;0m {value}")
+            if use_ansiterm:
+                sys.stderr.write(f"\033[99D \033[K \033[;33m{msg}:\033[;0m {value}")
+            else:
+                sys.stderr.write(f"{msg}: {value}")
             sys.stderr.flush()
             c = next(getraw_kbd())
             value = handler(c)

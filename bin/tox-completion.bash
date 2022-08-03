@@ -10,7 +10,14 @@ python_ident() {
     for py_candidate in python3.10 python3.9  python3.8 python3.7 python3.6 python3.5 python; do
         which "${py_candidate}" &>/dev/null || continue
         (
-            "$py_candidate" -c 'import termios; exit(0);' 2>/dev/null
+            pyhome_loc=$("$py_candidate" -c 'import os; print(os.environ.get("HOME"));' 2>/dev/null)
+            [[ -z $pyhome_loc ]] && { exit 1; }
+            pyhome_nodeid=$(command stat -L "${pyhome_loc}" -c %i)
+            home_nodeid=$(command stat -L "${HOME}" -c %i)
+            if [[ $pyhome_nodeid != $home_nodeid ]]; then
+                # This python isn't native to our shell (e.g. a wsl version from git-bash or vice-versa, etc)
+                exit 1
+            fi
         ) || continue
         which "$py_candidate"
         return
