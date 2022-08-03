@@ -1,10 +1,11 @@
 # termios_proxy.py
-
+import sys
 use_termios=True
 use_ansiterm=True
 
 try: # Nix only:
     import termios
+    import tty
 except:
     use_termios=False
     use_ansiterm=False
