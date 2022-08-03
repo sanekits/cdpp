@@ -5,13 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "git-bash cdpp test 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "c:\\Projects\\cdpp",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "b"
+            ],
+            "justMyCode": true
+        },
+        {
             "name": "tox_core invoke",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tox_core.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/test/a/ab",
-            "args": ["-a"],
+            "args": [
+                "-a"
+            ],
             "justMyCode": true
         }
     ]

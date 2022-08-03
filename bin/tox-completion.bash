@@ -27,9 +27,8 @@ python_ident() {
 }
 
 export ToxPython="$(python_ident)"
-export LmHome=${LmHome:-$HOME}
 
-export TOXHOME=${TOXHOME:-${LmHome}/bin/tox-py}
+export TOXHOME=${TOXHOME:-${HOME}/.local/bin/cdpp}
 
 
 if [[ -f ${TOXHOME}/tox_core.py ]]; then

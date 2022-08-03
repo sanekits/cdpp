@@ -1,11 +1,35 @@
 # tox_core.py
 import os
 import sys
-#import tty
+import subprocess
 from termios_proxy import getraw_kbd, use_ansiterm
 from tempfile import NamedTemporaryFile
 from typing import Callable, List, Dict, Tuple
 from collections import OrderedDict
+
+use_pwuid=True
+winpaths=False
+try:
+    from pwd import getpwuid
+except:
+    # Windows does not have this feature conveniently enough:
+    use_pwuid=False
+    winpaths=True
+
+def normalize_path(path:str, to_unix=True) -> str:
+    '''
+    In general within tox_core, we only deal with Unix paths.  But when we're calling a Windows api, we
+    must translate to Windows pathnames.  So this module goes both directions on Windows.  On real unix,
+    we just return the `path` arg with no work done.
+    '''
+
+    if not winpaths:
+        return path  # If we're on unix, there's nothing to normalize
+
+    os_dest_flag='-u' if to_unix else '-w'
+    proc = subprocess.run(['cygpath',os_dest_flag,path],shell=True,capture_output=True)
+    return proc.stdout.decode('utf-8').rstrip()
+
 
 import logging
 logging.basicConfig(filename=f"{os.environ.get('HOME','/tmp')}/.tox_core.log",
@@ -15,7 +39,7 @@ logging.basicConfig(filename=f"{os.environ.get('HOME','/tmp')}/.tox_core.log",
                             level=logging.DEBUG)
 
 
-tox_core_root = os.path.dirname(os.path.realpath(__file__))
+tox_core_root = normalize_path(os.path.dirname(os.path.realpath(__file__)),to_unix=True)
 logging.info(f"tox startup, args={sys.argv}, cwd={os.getcwd()}, __file__={__file__}")
 
 sys.path.insert(0, tox_core_root)
@@ -28,16 +52,7 @@ import argparse
 import fnmatch
 import shutil
 from subprocess import call
-from os.path import dirname, isdir, realpath, exists, isfile
-from os import getcwd, environ, stat
-use_pwuid=True
-try:
-    from pwd import getpwuid
-except:
-    # Windows does not have this feature conveniently enough:
-    use_pwuid=False
 from setutils import IndexedSet
-
 
 toxRootKey:str = "ToxSysRoot"
 file_sys_root:str = os.getenv(toxRootKey, "/")
@@ -69,7 +84,30 @@ class AddEntryAlreadyPresent(BaseException):
 
 indexFileBase:str = ".tox-index"
 
-home_path:str=os.environ.get('HOME',None)
+home_path:str=normalize_path(os.environ.get('HOME',None),to_unix=True)
+
+def isdir(path:str) -> bool:
+    return os.path.isdir(normalize_path(path,to_unix=False))
+
+def exists(path:str) -> bool:
+    return os.path.exists(normalize_path(path,to_unix=False))
+
+def realpath(path:str) -> str:
+    return os.path.realpath(normalize_path(path,to_unix=False))
+
+def dirname(path:str) -> str:
+    return os.path.dirname(normalize_path(path,to_unix=False))
+
+def isfile(path:str) -> str:
+    return os.path.isfile(normalize_path(path,to_unix=False))
+
+def environ_path(keyname:str) -> str:
+    return normalize_path(os.environ.get(keyname,None),to_unix=True)
+
+def getcwd():
+    return normalize_path(os.getcwd(),to_unix=True)
+
+from os.path import isfile
 
 def abbreviate_path(dest_path:str,ix_path:str):
     ''' Render shortest-meaningful representation of dest_path '''
@@ -87,11 +125,15 @@ def abbreviate_path(dest_path:str,ix_path:str):
 
 
 
+
 def pwd() -> str:
     """Return the $PWD value, which is nicer inside
     trees of symlinks, but fallback to getcwd if it's not
     set"""
-    return environ.get("PWD", getcwd())
+    if os.environ.get("PWD"):
+        return environ_path("PWD")
+    return getcwd()
+
 
 
 def dirContains(parent: str, unk: str) -> bool:
@@ -112,7 +154,7 @@ class IndexContent(list):
         self.protect: bool = False
         self.outer = None  # If we are chaining indices
 
-        with open(self.path, "r") as f:
+        with open(normalize_path(self.path,to_unix=False), "r") as f:
             for line in f.readlines():
                 path,_,priority=line.rstrip().partition(' ')
                 if not path or path[0]=='#':
@@ -298,7 +340,7 @@ def ownerCheck(xdir:str, filename:str, only_mine:bool) -> bool:
         return True
     if not use_pwuid:
         return True
-    owner = stat("/".join((xdir, filename))).st_uid
+    owner = os.path.stat("/".join((xdir, filename))).st_uid
     user = os.environ.get('USER','root')
     try:
         return getpwuid(owner).pw_name == user
@@ -316,14 +358,14 @@ def findIndex(xdir:str=None, only_mine:bool=True) -> IndexContent:
         xdir = pwd()
     global indexFileBase
     if not isChildDir(file_sys_root, xdir):
-        xdir = os.path.realpath(xdir)
+        xdir = realpath(xdir)
         if not isChildDir(file_sys_root, xdir):
             if len(xdir) < len(file_sys_root):
                 return None
             if xdir != file_sys_root:
                 # If we've searched all the way up to the root /, try the
                 # user's HOME dir:
-                return findIndex(environ["HOME"])
+                return findIndex(environ_path("HOME"))
     if isFileInDir(xdir, indexFileBase) and ownerCheck(xdir, indexFileBase, only_mine):
         return "/".join([xdir, indexFileBase])
     if isFileInDir(xdir, indexFileBase) and xdir == environ["HOME"]:
@@ -332,9 +374,9 @@ def findIndex(xdir:str=None, only_mine:bool=True) -> IndexContent:
     if xdir == file_sys_root:
         # If we've searched all the way up to the root /, try the user's HOME
         # dir:
-        return findIndex(environ["HOME"])
+        return findIndex(os.environ["HOME"])
 
-    logging.info(f"findIndex returns: xdir={xdir}, HOME={environ['HOME']}, file_sys_root={file_sys_root}")
+    logging.info(f"findIndex returns: xdir={xdir}, HOME={os.environ['HOME']}, file_sys_root={file_sys_root}")
     return findIndex(dirname(xdir))
 
 
@@ -351,7 +393,7 @@ def loadIndex(xdir:str=None, deep:bool=False, inner=None) -> IndexContent:
     ic = IndexContent(ix)
     if not inner is None:
         inner.outer = ic
-    if deep and not xdir == environ["HOME"]:
+    if deep and not xdir == os.environ["HOME"]:
         ix = findIndex(dirname(ic.indexRoot()))  # Bug?
         # ix = findIndex(ic.indexRoot())
         if ix:
@@ -663,7 +705,7 @@ def printIndexInfo(ixpath):
     print("!PWD: %s" % (pwd() if not ixpath else dirname(ixpath)))
     print("Index: %s" % ix.path)
     print("# of dirs in index: %d" % len(ix))
-    if environ["PWD"] == ix.indexRoot():
+    if os.environ["PWD"] == ix.indexRoot():
         print("PWD == index root")
 
     if not ix.outer is None:
@@ -673,7 +715,7 @@ def printIndexInfo(ixpath):
 
 def ensureHomeIndex():
     global indexFileBase
-    loc = "/".join((environ["HOME"], indexFileBase))
+    loc = "/".join((os.environ["HOME"], indexFileBase))
     if not os.path.isfile(loc):
         with open(loc, "w") as ff:
             sys.stderr.write("Tox first-time initialization: creating %s\n" % loc)
@@ -682,7 +724,7 @@ def ensureHomeIndex():
 
 def createIndexHere():
     if isfile("./" + indexFileBase):
-        sys.stderr.write("An index already exists in %s" % environ.get("PWD", getcwd()))
+        sys.stderr.write("An index already exists in %s" % getcwd())
         return False
     with open(indexFileBase, "w") as f:
         f.write("#protect\n")
