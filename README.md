@@ -32,12 +32,7 @@ This tool replaces the default `cd` behavior with something that works the same 
 
 ## Installation:
 
-### Quick-paste method:
-
-Run this in your `bash` shell:
-
-`ver=0.5.2; cd && curl -Ls https://github.com/sanekits/cdpp/releases/download/${ver}/cdpp-setup-${ver}.sh > tmp${ver} && bash tmp${ver} && rm tmp${ver}`
-
+Run the one-line installation command in [the latest release page](https://github.com/sanekits/cdpp/releases/latest)
 
 ### Alternate method:
 
@@ -45,7 +40,7 @@ Run this in your `bash` shell:
 
 - Run the self-extracting setup:
 ```console
-user@laptop$ cd some/temp/dir && ./cdpp-setup-<version>.sh
+user@laptop$ cd ~/Downloads && ./cdpp-setup-<version>.sh
 ```
 
 ### Configuration *(Optional)*
