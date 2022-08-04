@@ -64,6 +64,22 @@
             ],
             "justMyCode": true
         },
+        { // Add cdpp
+            "name": "git-bash cdpp test 5",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "--add-dir",
+                "${workspaceFolder}"
+            ],
+            "justMyCode": true
+        },
         {
             "name": "tox_core invoke",
             "type": "python",

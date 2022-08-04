@@ -93,10 +93,10 @@ def exists(path:str) -> bool:
     return os.path.exists(normalize_path(path,to_unix=False))
 
 def realpath(path:str) -> str:
-    return os.path.realpath(normalize_path(path,to_unix=False))
+    return normalize_path(os.path.realpath(normalize_path(path,to_unix=False),to_unix=True))
 
 def dirname(path:str) -> str:
-    return os.path.dirname(normalize_path(path,to_unix=False))
+    return normalize_path(os.path.dirname(path),to_unix=True)
 
 def isfile(path:str) -> str:
     return os.path.isfile(normalize_path(path,to_unix=False))
@@ -368,13 +368,13 @@ def findIndex(xdir:str=None, only_mine:bool=True) -> IndexContent:
                 return findIndex(environ_path("HOME"))
     if isFileInDir(xdir, indexFileBase) and ownerCheck(xdir, indexFileBase, only_mine):
         return "/".join([xdir, indexFileBase])
-    if isFileInDir(xdir, indexFileBase) and xdir == environ["HOME"]:
+    if isFileInDir(xdir, indexFileBase) and xdir == environ_path("HOME"):
         return "/".join([xdir, indexFileBase])
     # Recurse to parent dir:
     if xdir == file_sys_root:
         # If we've searched all the way up to the root /, try the user's HOME
         # dir:
-        return findIndex(os.environ["HOME"])
+        return findIndex(environ_path("HOME"))
 
     logging.info(f"findIndex returns: xdir={xdir}, HOME={os.environ['HOME']}, file_sys_root={file_sys_root}")
     return findIndex(dirname(xdir))
@@ -396,7 +396,7 @@ def loadIndex(xdir:str=None, deep:bool=False, inner=None) -> IndexContent:
     ic = IndexContent(ix)
     if not inner is None:
         inner.outer = ic
-    if deep and not xdir == os.environ["HOME"]:
+    if deep and not xdir == environ_path("HOME"):
         ix = findIndex(dirname(ic.indexRoot()))  # Bug?
         # ix = findIndex(ic.indexRoot())
         if ix:
@@ -464,8 +464,8 @@ def resolvePatternToDir(patterns:List[str], mode:ResolveMode=ResolveMode.userio)
                 return printMatchingEntries([rk], rk)
             return (matches,solution)
         solution=realpath(solution)
-        os.chdir(solution)
-        os.environ['PWD']=solution
+        os.chdir(normalize_path(solution,to_unix=False))
+        os.environ['PWD']=normalize_path(solution,to_unix=False)
         # If there's more patterns, we shall recurse:
         return resolvePatternToDir(patterns[next_pattern:],  mode)
 
@@ -664,10 +664,12 @@ def addDirsToIndex(xargs:List[str], recurse:bool):
             priority=int(arg)
             continue
         except StopIteration:
-            xdir=pwd()
+            qdir=pwd()
         except:
-            xdir=arg
-        ix = loadIndex()  # Always load active index for this, even if
+            qdir=arg
+        # Note: qdir is of unknown path format, as it came from user
+        xdir=normalize_path(qdir,to_unix=True)
+        ix = loadIndex(xdir)  # Always load active index for this, even if
                           # the dir we're adding is out of tree
 
         def xAdd(path:str,priority:int):
@@ -681,7 +683,7 @@ def addDirsToIndex(xargs:List[str], recurse:bool):
 
         xAdd(xdir,priority)
         if recurse:
-            for r, dirs, _ in os.walk(xdir):
+            for r, dirs, _ in os.walk(qdir):
                 dirs[:] = [d for d in dirs if not d[0] == "."]  # ignore hidden dirs
                 for d in dirs:
                     xAdd(r + "/" + d,priority)
@@ -718,9 +720,9 @@ def printIndexInfo(ixpath):
 
 def ensureHomeIndex():
     global indexFileBase
-    loc = "/".join((os.environ["HOME"], indexFileBase))
-    if not os.path.isfile(loc):
-        with open(loc, "w") as ff:
+    loc = "/".join((environ_path("HOME"), indexFileBase))
+    if not isfile(loc):
+        with open(normalize_path(loc,to_unix=False), "w") as ff:
             sys.stderr.write("Tox first-time initialization: creating %s\n" % loc)
             ff.write("# This is your HOME dir .tox-index, try 'to --help' \n")
 
