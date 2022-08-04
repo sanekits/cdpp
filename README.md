@@ -18,7 +18,7 @@ This tool replaces the default `cd` behavior with something that works the same 
 
 - Add a long dir to the index:
     ```console
-    /home/tjoe/projects/fishhead/common/jsvsa/build/etc$  cd -a
+    tjoe@my-pc:.../etc$  cd -a
     /home/tjoe/projects/fishhead/common/jsvsa/build/etc added/updated to /home/tjoe11/.tox-index:1
     ```
   Afterwards, you can go back to that dir with just `cd jsv` -- or any unique sequence of chars which match the directory name
