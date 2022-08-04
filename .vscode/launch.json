@@ -49,6 +49,21 @@
             ],
             "justMyCode": true
         },
+        { // Find non-existent dir starting at root
+            "name": "git-bash cdpp test 4",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "/",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "this-dir-dont-exist"
+            ],
+            "justMyCode": true
+        },
         {
             "name": "tox_core invoke",
             "type": "python",

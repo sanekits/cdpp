@@ -384,7 +384,10 @@ def loadIndex(xdir:str=None, deep:bool=False, inner=None) -> IndexContent:
     """Load the index for current xdir.  If deep is specified,
     also search up the tree for additional indices"""
     if xdir and not isdir(xdir):
-        raise RuntimeError("non-dir %s passed to loadIndex()" % xdir)
+        if xdir=='//':
+            xdir=file_sys_root
+        else:
+            raise RuntimeError("non-dir %s passed to loadIndex()" % xdir)
 
     ix:IndexContent = findIndex(xdir)
     if not ix:
