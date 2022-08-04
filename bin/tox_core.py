@@ -338,7 +338,7 @@ def ownerCheck(xdir:str, filename:str, only_mine:bool) -> bool:
         return True
     if not use_pwuid:
         return True
-    owner = os.path.stat("/".join((xdir, filename))).st_uid
+    owner = os.stat("/".join((xdir, filename))).st_uid
     user = os.environ.get('USER','root')
     try:
         return getpwuid(owner).pw_name == user

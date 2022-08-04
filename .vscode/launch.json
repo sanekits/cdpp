@@ -19,7 +19,7 @@
             ],
             "justMyCode": true
         },
-        { // Add a dir to the index
+        { // Windows: Add a dir to the index
             "name": "git-bash cdpp test 2",
             "type": "python",
             "request": "launch",
@@ -34,7 +34,7 @@
             ],
             "justMyCode": true
         },
-        { // Remove a dir from the index
+        { // Windows: Remove a dir from the index
             "name": "git-bash cdpp test 3",
             "type": "python",
             "request": "launch",
@@ -49,7 +49,7 @@
             ],
             "justMyCode": true
         },
-        { // Find non-existent dir starting at root
+        { // Windows: Find non-existent dir starting at root
             "name": "git-bash cdpp test 4",
             "type": "python",
             "request": "launch",
@@ -64,7 +64,7 @@
             ],
             "justMyCode": true
         },
-        { // Add cdpp
+        { // Windows: Add cdpp
             "name": "git-bash cdpp test 5",
             "type": "python",
             "request": "launch",
@@ -80,7 +80,7 @@
             ],
             "justMyCode": true
         },
-        { /* locate relative dir from local-index
+        { /* Windows: locate relative dir from local-index
             i.e. if 'cdpp' is in the local index, we should correctly
             fetch its full path when invoked from a child of the index root
          */
@@ -98,7 +98,7 @@
             ],
             "justMyCode": true
         },
-        { // Preserve root index.  If ~/.tox-index exists, don't overwrite it
+        { // Windows: Preserve root index.  If ~/.tox-index exists, don't overwrite it
             "name": "git-bash cdpp test 7",
             "type": "python",
             "request": "launch",
@@ -113,7 +113,7 @@
             ],
             "justMyCode": true
         },
-        { // Query a subindex
+        { // Windows: Query a subindex
             "name": "git-bash cdpp test 8",
             "type": "python",
             "request": "launch",
@@ -128,7 +128,7 @@
             ],
             "justMyCode": true
         },
-        { // Search non-existent dir
+        { // Windows: Search non-existent dir
             "name": "git-bash cdpp test 9",
             "type": "python",
             "request": "launch",
@@ -143,8 +143,8 @@
             ],
             "justMyCode": true
         },
-        {
-            "name": "tox_core invoke",
+        { // Linux: add dir to home index
+            "name": "linux add dir to home index",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tox_core.py",
