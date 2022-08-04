@@ -119,12 +119,27 @@
             "request": "launch",
             "program": "${workspaceFolder}/bin/tox_core.py",
             "console": "integratedTerminal",
-            "cwd": "/c/Projects/cdpp",
+            "cwd": "${workspaceFolder}",
             "env": {
                 "TOXHOME": "${workspaceFolder}/bin"
             },
             "args": [
                 "-q"
+            ],
+            "justMyCode": true
+        },
+        { // Search non-existent dir
+            "name": "git-bash cdpp test 9",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "${env:HOME}",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "pixv"
             ],
             "justMyCode": true
         },
