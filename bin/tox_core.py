@@ -93,7 +93,7 @@ def exists(path:str) -> bool:
     return os.path.exists(normalize_path(path,to_unix=False))
 
 def realpath(path:str) -> str:
-    return normalize_path(os.path.realpath(normalize_path(path,to_unix=False),to_unix=True))
+    return normalize_path(os.path.realpath(normalize_path(path,to_unix=False)),to_unix=True)
 
 def dirname(path:str) -> str:
     return normalize_path(os.path.dirname(path),to_unix=True)

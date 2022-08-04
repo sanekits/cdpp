@@ -113,6 +113,21 @@
             ],
             "justMyCode": true
         },
+        { // Query a subindex
+            "name": "git-bash cdpp test 8",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "/c/Projects/cdpp",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "-q"
+            ],
+            "justMyCode": true
+        },
         {
             "name": "tox_core invoke",
             "type": "python",
