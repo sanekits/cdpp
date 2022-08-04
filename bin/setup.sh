@@ -62,6 +62,9 @@ shrc_fixup() {
 main() {
     reload_reqd=false
     if [[ ! -d $HOME/.local/bin/cdpp ]]; then
+        if [[ -e $HOME/.local/bin/cdpp ]]; then
+            die "$HOME/.local/bin/cdpp exists but is not a directory.  Refusing to overwrite"
+        fi
         command mkdir -p $HOME/.local/bin/cdpp || die "Failed creating $HOME/.local/bin/cdpp"
     fi
     if [[ $(inode $Script) -eq $(inode ${HOME}/.local/bin/cdpp/setup.sh) ]]; then
