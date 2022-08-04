@@ -98,6 +98,21 @@
             ],
             "justMyCode": true
         },
+        { // Preserve root index.  If ~/.tox-index exists, don't overwrite it
+            "name": "git-bash cdpp test 7",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "${env:HOME}/Roaming/Code/User",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "foo"
+            ],
+            "justMyCode": true
+        },
         {
             "name": "tox_core invoke",
             "type": "python",

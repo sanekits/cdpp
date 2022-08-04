@@ -107,8 +107,6 @@ def environ_path(keyname:str) -> str:
 def getcwd():
     return normalize_path(os.getcwd(),to_unix=True)
 
-from os.path import isfile
-
 def abbreviate_path(dest_path:str,ix_path:str):
     ''' Render shortest-meaningful representation of dest_path '''
     def home_relative(dest_path:str):

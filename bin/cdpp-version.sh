@@ -2,7 +2,7 @@
 
 # Running cdpp-version.sh is the correct way to
 # get the home path for cdpp and its tools.
-CdppVer=0.5.4
+CdppVer=0.5.5
 
 set -e
 
