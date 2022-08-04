@@ -1,6 +1,7 @@
 # `cd++`: turbo-charging the humble `cd` command
 
-Linux/Unix users spend a *lot* of time changing directories.
+## Why is `cd` so dumb?
+Linux/Unix users spend a *lot* of time changing directories.  Why isn't `cd` more helpful?  Why is there no "recent directories" list? *(There is, but it's hidden away and hard to discover and use)*  Why can't it keep track of my favorites?  Why do I spend so much time in a loop of "type a few chars, hit tab" until I get back to the same place I've been 100 times before?
 
 While it's true that a single directory change is usually quick and relatively painless, there's two dark truths waiting to be noticed:
 
@@ -10,6 +11,22 @@ While it's true that a single directory change is usually quick and relatively p
 `cd++` is all about reducing the friction of the humble directory change command in `bash`.  It's not sexy, it doesn't involve machine learning or distributed edge-network content optimization.  Nobody ever got rich or famous by making it easier to change directories.  This is just a few simple observations, a bit of shell script and Python, and many years of suffering the annoyance of entering commands like this, over and over each day:
 
 `cd ~/my-project/base/src/include/lxv/ver102-32992/imports/__generated__/foo`
+
+## `cd++` to the rescue:
+
+This tool replaces the default `cd` behavior with something that works the same way for the most common and ordinary cases, but has magical powers beyond that:
+
+- Add a long dir to the index:
+    ```console
+    /home/tjoe/projects/fishhead/common/jsvsa/build/etc$  cd -a
+    /home/tjoe/projects/fishhead/common/jsvsa/build/etc added/updated to /home/tjoe11/.tox-index:1
+    ```
+  Afterwards, you can go back to that dir with just `cd jsv` -- or any unique sequence of chars which match the directory name
+
+- Quick resolution of ambiguous dir names:
+  If you have multiple directories in your index which match the `cd [arg]` search text, **cd++** will present the choices and you can choose the correct one with minimal keyboard entry:
+
+    <img src="screen1.png" width="80%"></img>
 
 ## Installation:
 
