@@ -156,7 +156,7 @@ class IndexContent(list):
 
         with open(normalize_path(self.path,to_unix=False), "r") as f:
             for line in f.readlines():
-                path,_,priority=line.rstrip().partition(' ')
+                path,_,priority=line.rstrip().rpartition(' ')
                 if not path or path[0]=='#':
                     continue
                 try:

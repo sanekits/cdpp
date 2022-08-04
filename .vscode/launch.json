@@ -30,7 +30,7 @@
                 "TOXHOME": "${workspaceFolder}/bin"
             },
             "args": [
-                "-a"
+                "--add-dir"
             ],
             "justMyCode": true
         },
@@ -45,7 +45,7 @@
                 "TOXHOME": "${workspaceFolder}/bin"
             },
             "args": [
-                "-a"
+                "--del-dir"
             ],
             "justMyCode": true
         },
