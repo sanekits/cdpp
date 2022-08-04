@@ -28,6 +28,8 @@ This tool replaces the default `cd` behavior with something that works the same 
 
     <img src="screen1.png" width="80%"></img>
 
+- Many other handy features *(see [usage examples below](#usage-examples) or run `cd --help`)*
+
 ## Installation:
 
 ### Quick-paste method:
