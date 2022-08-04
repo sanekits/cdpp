@@ -4,7 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
+        { // Lookup a dir with ambiguity
             "name": "git-bash cdpp test 1",
             "type": "python",
             "request": "launch",
@@ -16,6 +16,36 @@
             },
             "args": [
                 "b"
+            ],
+            "justMyCode": true
+        },
+        { // Add a dir to the index
+            "name": "git-bash cdpp test 2",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "c:\\Program Files\\git\\bin",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "-a"
+            ],
+            "justMyCode": true
+        },
+        { // Remove a dir from the index
+            "name": "git-bash cdpp test 3",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "c:\\Program Files\\git\\bin",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "-a"
             ],
             "justMyCode": true
         },

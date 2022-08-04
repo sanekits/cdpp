@@ -244,7 +244,7 @@ class IndexContent(list):
                 tmpfile.write("%s %d\n" % entry)
         # We want to write back to the index without recreating the inode: this allows symlinks
         # to behave without surprises:
-        with open(tmpname, "r") as infile, open(self.path,"r+") as outfile:
+        with open(tmpname, "r") as infile, open(normalize_path(self.path,to_unix=False),"r+") as outfile:
             outfile.seek(0)
             outfile.write(infile.read())
             outfile.truncate()
