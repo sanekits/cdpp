@@ -80,6 +80,24 @@
             ],
             "justMyCode": true
         },
+        { /* locate relative dir from local-index
+            i.e. if 'cdpp' is in the local index, we should correctly
+            fetch its full path when invoked from a child of the index root
+         */
+            "name": "git-bash cdpp test 6",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "pp"
+            ],
+            "justMyCode": true
+        },
         {
             "name": "tox_core invoke",
             "type": "python",
