@@ -78,6 +78,8 @@ class UserDownTrap(UserTrap):
     ...
 class UserSelectionTrap(UserTrap):
     ...
+class UserBadEntryTrap(UserTrap):
+    ...
 
 class AddEntryAlreadyPresent(BaseException):
     ...
@@ -581,7 +583,12 @@ def prompt_editor(vstrbuff:List[str],dx:OrderedDict,c:str) -> str:
     elif ord(c) == 13: # Enter
         if len(vstrbuff[0]) == 0:
             return vstrbuff[0]
-        raise UserSelectionTrap(int(vstrbuff[0]))
+        try:
+            sel_idx=int(vstrbuff[0])
+            raise UserSelectionTrap(sel_idx)
+        except ValueError:
+            raise UserBadEntryTrap(vstrbuff[0])
+
     elif ord(c) == 27:  # Esc
         logging.info('[esc]: reset buffer')
         vstrbuff[0]=""
@@ -627,22 +634,26 @@ def promptMatchingEntry(mx:List[Tuple[str,int]], ix:IndexContent ) ->Tuple[Index
     ixdir=dirname(ix.path)
     mx_ord=[ ( abbreviate_path( e[0],ixdir ), e[1], e[0] ) for e in mx ]
     mx_ord=sorted( mx_ord, key=lambda e: len(e[0])/e[1] )
-    sys.stderr.write(f"{yellow(':: Index:')} {green(dirname(ix.path))}\n")
     dx = OrderedDict( {str(next(sel)):(m[0],None) for m in mx_ord} )
+    sys.stderr.write(f"{yellow(':: Index:')} {green(dirname(ix.path))}\n")
     dx['%q'] = ('<Quit>',KeyboardInterrupt)
     dx['%\\'] = ('<Up Tree>',UserUpTrap)
     dx['%/'] = ('<Down Tree>', UserDownTrap)
     displayMatchingEntries(dx,dirname(ix.path))
-    vstrbuff=["0"]
-    try:
-        prompt("Choose", 0,lambda c: prompt_editor(vstrbuff,dx,c))
-    except UserSelectionTrap as s:
-        selection_ofs=s.args[0]
-        logging.info(f"UserSelectionTrap:{s}")
-        return (mx_ord, mx_ord[selection_ofs][2])
-    except KeyboardInterrupt:
-        logging.info("User Ctrl+C in promptMatchingEntry")
-        return (mx_ord, "!echo Ctrl+C")
+    while True:
+        vstrbuff=["0"]
+        try:
+            prompt("Choose", 0,lambda c: prompt_editor(vstrbuff,dx,c))
+        except UserSelectionTrap as s:
+            selection_ofs=s.args[0]
+            logging.info(f"UserSelectionTrap:{s}")
+            return (mx_ord, mx_ord[selection_ofs][2])
+        except UserBadEntryTrap as sv:
+            logging.error(f"Bad user entry: {sv}")
+            continue
+        except KeyboardInterrupt:
+            logging.info("User Ctrl+C in promptMatchingEntry")
+            return (mx_ord, "!echo Ctrl+C")
 
 
 
