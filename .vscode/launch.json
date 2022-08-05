@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         { // Lookup a dir with ambiguity
-            "name": "git-bash cdpp test 1",
+            "name": "git-bash 1 lookup ambiguous dir",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tox_core.py",
@@ -154,6 +154,21 @@
                 "-a"
             ],
             "justMyCode": true
-        }
+        },
+        {
+            "name": "wsl 1 lookup ambiguous dir",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tox_core.py",
+            "console": "integratedTerminal",
+            "cwd": "/c/Projects/cdpp",
+            "env": {
+                "TOXHOME": "${workspaceFolder}/bin"
+            },
+            "args": [
+                "b"
+            ],
+            "justMyCode": true
+        },
     ]
 }
