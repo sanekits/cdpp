@@ -1,0 +1,4 @@
+# List of paths in .local/bin/cdpp/ which get symlinked to
+# .local/bin on setup
+# TODO: list your scripts which need to be on the PATH, one per line
+cdpp.sh
