@@ -27,14 +27,31 @@ scriptDir=$(command dirname -- "${scriptName}")
 source ${scriptDir}/shellkit/setup-base.sh
 
 die() {
-    builtin echo "ERROR(setup.sh): $*" >&2
+    builtin echo "ERROR(cdpp/setup.sh): $*" >&2
     builtin exit 1
 }
 
 main() {
     Script=${scriptName} main_base "$@"
     builtin cd ${HOME}/.local/bin || die 208
-    # TODO: kit-specific steps can be added here
+
+    # When:
+    #  - ~/.cdpprc exists
+    #  - It's different than the shipped cdpp/cdpprc
+    # Then:
+    #  - Create a ~/.cdpprc.proposed and notify the user
+    # When:
+    #  - ~/.cdpprc does not exist
+    # Then:
+    #  - Create it by copying shipped cdpp/cdpprc
+    [[ -f ${HOME}/.cdpprc ]] && {
+        if ! command diff cdpp/cdpprc ${HOME}/.cdpprc &>/dev/null; then
+            command cp cdpp/cdpprc ${HOME}/.cdpprc.proposed || builtin echo "$(die unable to write ~/.cdpprc.proposed)"
+            builtin echo "WARNING: Your ~/.cdpprc does not match the shipped version.  Recommend comparing with ~/.cdpprc.proposed and manually merging changes."
+        fi
+    } || {
+        command cp cdpp/cdpprc ${HOME}/.cdpprc || builtin echo "$(die unable to write ~/.cdpprc)"
+    }
 }
 
 [[ -z ${sourceMe} ]] && {
