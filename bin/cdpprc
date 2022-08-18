@@ -1,0 +1,25 @@
+# .cdpprc
+# :vim filetype=sh:
+# cdpp user-init file
+# schemaversion=1
+
+# This file is sourced during interactive shell initialization. It's the
+#  right place to initialize CDPATH.  Recommendations:
+#    1.  CDPATH should start with ".:" so that the current dir is included.
+#    2.  Adding HOME next is almost always helpful for normal users
+#    3.  Any dir which contains many projects is a candidate as well.
+#    4.  Don't add too much.  Auto-complete becomes less effective.  Rely on
+#        the `tox` indexing feature to drill into lower-order subdirs.
+#    5.  Add temporary dirs with `cdpath_add`: these will not survive a shell restart,
+#        but are handy for project-specific tweaks.
+#    6.  Windows+WSL users might consider adding /c/Users/<WindowsUserName>, so that
+#         Downloads & Pictures, etc are close at hand
+#    7.  TAB-COMPLETION TOO SLOW?? Remove elements from $CDPATH_INIT in ~/.cdpprc, one at
+#        a time, until you get the right balance.
+
+CDPATH_INIT=.:${HOME}:/
+CDPATH=${CDPATH_INIT}
+
+alias cdm='cdmark'
+
+##  Installed by cdpp-setup.sh

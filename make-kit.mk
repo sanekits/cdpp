@@ -8,5 +8,11 @@
 #   by the user -- i.e. the files that get installed,
 #   or anything which generates those files.
 kit_depends := \
-    bin/<Kitname>.bashrc \
-    bin/<Kitname>.sh
+    bin/cdpp.bashrc \
+	bin/cdpprc \
+	bin/setutils.py \
+	bin/termios_proxy.py \
+	bin/tox_core.py \
+	bin/tox-completion.bash \
+
+
