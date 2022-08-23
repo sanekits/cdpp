@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Running <Kitname>-version.sh is the correct way to
+# Running cdpp-version.sh is the correct way to
 # get the home install path for the tool
 KitVersion=0.7.2
 
@@ -22,5 +22,5 @@ Scriptdir=$(dirname -- "$Script")
 
 
 if [[ -z "$sourceMe" ]]; then
-    builtin printf "%s\t%s\n" ${Scriptdir}/<Kitname> $KitVersion
+    builtin printf "%s\t%s\n" ${Scriptdir}/cdpp $KitVersion
 fi
