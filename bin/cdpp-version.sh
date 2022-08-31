@@ -2,7 +2,7 @@
 
 # Running cdpp-version.sh is the correct way to
 # get the home install path for the tool
-KitVersion=0.7.4
+KitVersion=0.7.5
 
 canonpath() {
     builtin type -t realpath.sh &>/dev/null && {
@@ -22,5 +22,5 @@ Scriptdir=$(dirname -- "$Script")
 
 
 if [[ -z "$sourceMe" ]]; then
-    builtin printf "%s\t%s\n" ${Scriptdir}/cdpp $KitVersion
+    builtin printf "%s\t%s\n" ${Scriptdir} $KitVersion
 fi
