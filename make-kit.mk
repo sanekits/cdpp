@@ -16,3 +16,12 @@ kit_depends := \
 	bin/tox-completion.bash \
 
 
+publish-common: conformity-check
+
+publish: pre-publish publish-common release-draft-upload release-list
+
+
+	@echo ">>>> publish complete OK.  <<<"
+	@echo ">>>> Manually publish the release from this URL when satisfied, <<<<"
+	@echo ">>>> and then change ./version to avoid accidental confusion. <<<<"
+	cat tmp/draft-url
