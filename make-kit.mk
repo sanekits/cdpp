@@ -16,7 +16,7 @@ kit_depends := \
 	bin/tox-completion.bash \
 
 
-#publish-common: conformity-check
+publish-common: conformity-check
 
 publish: pre-publish publish-common release-draft-upload release-list
 
