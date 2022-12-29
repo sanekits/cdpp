@@ -81,7 +81,7 @@ if [[ -f ${TOXHOME}/tox_core.py ]]; then
     alias tod='set -f; tox_w -d'
     alias tog='set -f; tox_w -g'
     alias tor='set -f; tox_w --report td'
-    alias tox='set -f;tox_w'
+    
     alias toz='koo() { tox_debugpy=1 tox_w "$@"; }; set -f; koo '
     # function toz {
     #     set -f
