@@ -26,7 +26,7 @@ This tool replaces the default `cd` behavior with something that works the same 
 - Quick resolution of ambiguous dir names:
   If you have multiple directories in your index which match the `cd [arg]` search text, **cd++** will present the choices and you can choose the correct one with minimal keyboard entry:
 
-    <img src="cdpp.png" width="60%"></img>
+    <img src="cdpp.png" width="40%"></img>
 
 - Many other handy features *(see [usage examples below](#usage-examples) or run `cd --help`)*
 
