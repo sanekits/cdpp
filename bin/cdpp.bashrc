@@ -150,6 +150,26 @@ cdpp() {
     done
 }
 
+cd_execute() {
+    # change directory and then run a commmand.
+    # The first arg is interpreted by the cd() function above, and then subsequent
+    # arguments are evaluated after the directory change completes.
+    [[ $# -lt 2 ]] && {
+        case $1 in
+            -h|--help) echo "cd_execute [dir-arg] [command...[args] # Change directory and then evaluate remaining command" ;;
+            *)  echo "Unknown arg(s): $@" >&2;;
+        esac
+        false;
+        return;
+    }
+    local cd_to_arg="$1"; shift;
+    cd "${cd_to_arg}" && {
+        eval "$@"
+    }
+}
+
+alias cdx='cd_execute'
+
 
 [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
 export TOXHOME=${HOME}/.local/bin/cdpp
