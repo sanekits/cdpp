@@ -7,7 +7,7 @@
 # you set $TOXHOME=[dir] before sourcing tox-completion.bash
 
 python_ident() {
-    for py_candidate in python3.10 python3.9  python3.8 python3.7 python3.6 python3.5 python; do
+    for py_candidate in python3.{12..6} python; do
         which "${py_candidate}" &>/dev/null || continue
         (
             pyhome_loc=$("$py_candidate" -c 'import os; print(os.environ.get("HOME"));' 2>/dev/null)
@@ -81,7 +81,7 @@ if [[ -f ${TOXHOME}/tox_core.py ]]; then
     alias tod='set -f; tox_w -d'
     alias tog='set -f; tox_w -g'
     alias tor='set -f; tox_w --report td'
-    
+
     alias toz='koo() { tox_debugpy=1 tox_w "$@"; }; set -f; koo '
     # function toz {
     #     set -f
