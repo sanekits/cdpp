@@ -168,7 +168,7 @@ cd_execute() {
     }
 }
 
-alias cdx='cd_execute'
+alias cdex='cd_execute'
 
 
 [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
