@@ -1,0 +1,19 @@
+# test_init
+# :vim filetype=sh:
+
+source /workspace/cdx.bashrc
+
+_cdinit() {
+    {
+        local origDir="$PWD"
+        pushd /etc
+        pushd /bin
+        pushd /workspace
+        pushd $HOME
+        cd "$origDir"
+    } &>/dev/null
+    echo "---"
+    _cdview
+}
+
+_cdinit
