@@ -31,6 +31,10 @@ dk.shell:
 	@set -ue
 	docker exec -w /workspace -it "$(ContainerId)" bash
 
+dk.rm:
+	@set -ue
+	[[ -n "$(ContainerId)" ]] && docker rm -f $(ContainerId) || echo "No container to kill"
+
 env.setup: /.dockerenv
 	@set -ue
 	ln -sf /workspace/user.bashrc ~/.bashrc
