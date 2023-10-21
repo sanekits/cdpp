@@ -34,5 +34,6 @@ dk.shell:
 env.setup: /.dockerenv
 	@set -ue
 	ln -sf /workspace/user.bashrc ~/.bashrc
+	apt-get install -y tree bash-completion
 
 
