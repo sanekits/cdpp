@@ -4,6 +4,10 @@ cdpp-semaphore() {
     [[ 1 -eq  1 ]]
 }
 
+[[ -f $HOME/.local/bin/cdpp/cdx.bashrc ]] && {
+    source $HOME/.local/bin/cdpp/cdx.bashrc
+}
+
 cdpp_help() {
     cat <<EOF
 cdpp enhances the bash 'cd' command with more flexibility and efficiency.
@@ -77,6 +81,7 @@ cdpath_reset() {
     CDPATH="${CDPATH_INIT}"
     cdpath
 }
+
 
 define_cdpp_aliases() {
     alias .p='popd &>/dev/null'
@@ -174,5 +179,7 @@ alias cdex='cd_execute'
 [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
 export TOXHOME=${HOME}/.local/bin/cdpp
 [[ $UID == 0 && -z $USER ]] && export USER=root
-[[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && source $HOME/.local/bin/cdpp/tox-completion.bash
+[[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && {
+    source $HOME/.local/bin/cdpp/tox-completion.bash
+}
 define_cdpp_aliases
