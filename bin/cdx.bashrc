@@ -47,10 +47,10 @@ _cdselect() {
     done
 }
 
-alias .1='builtin cd ..'
-alias .2='builtin cd ../..'
-alias .3='builtin cd ../../..'
-alias .4='builtin cd ../../../..'
-alias .5='builtin cd ../../../../..'
-alias .6='builtin cd ../../../../../..'
+alias .1='builtin cdx ..'
+alias .2='builtin pushd ../..'
+alias .3='builtin pushd ../../..'
+alias .4='builtin pushd ../../../..'
+alias .5='builtin pushd ../../../../..'
+alias .6='builtin pushd ../../../../../..'
 
