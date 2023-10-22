@@ -2,7 +2,7 @@
 
 # Running cdpp-version.sh is the correct way to
 # get the home install path for the tool
-KitVersion=0.9.3
+KitVersion=0.9.4
 
 canonpath() {
     builtin type -t realpath.sh &>/dev/null && {

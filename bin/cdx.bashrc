@@ -41,16 +41,16 @@ _cdview() {
 }
 
 _cdselect() {
-    select xdir in $(_cdview -u); do
+    select xdir in $(_cdview -k); do
         builtin cd "$xdir"
         return
     done
 }
 
 alias .1='builtin cdx ..'
-alias .2='builtin pushd ../..'
-alias .3='builtin pushd ../../..'
-alias .4='builtin pushd ../../../..'
-alias .5='builtin pushd ../../../../..'
-alias .6='builtin pushd ../../../../../..'
+alias .2='builtin pushd ../.. &>/dev/null'
+alias .3='builtin pushd ../../.. &>/dev/null'
+alias .4='builtin pushd ../../../.. &>/dev/null'
+alias .5='builtin pushd ../../../../.. &>/dev/null'
+alias .6='builtin pushd ../../../../../.. &>/dev/null'
 
