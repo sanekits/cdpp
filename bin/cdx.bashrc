@@ -47,7 +47,7 @@ _cdselect() {
     done
 }
 
-alias .1='builtin cdx ..'
+alias .1='builtin cd ..'
 alias .2='builtin pushd ../.. &>/dev/null'
 alias .3='builtin pushd ../../.. &>/dev/null'
 alias .4='builtin pushd ../../../.. &>/dev/null'
