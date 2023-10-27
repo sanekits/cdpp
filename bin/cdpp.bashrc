@@ -83,16 +83,6 @@ cdpath_reset() {
 }
 
 
-define_cdpp_aliases() {
-    alias .p='popd &>/dev/null'
-    alias .-='builtin cd -'
-    alias .1='builtin  cd ..'
-    alias .2='builtin pushd ../.. >/dev/null'
-    alias .3='builtin pushd ../../.. >/dev/null'
-    alias .4='builtin pushd ../../../.. >/dev/null'
-    alias .5='builtin pushd ../../../../.. >/dev/null'
-    alias .6='builtin pushd ../../../../../.. >/dev/null'
-}
 
 dirs() {
     local pick; local dd
@@ -182,4 +172,6 @@ export TOXHOME=${HOME}/.local/bin/cdpp
 [[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && {
     source $HOME/.local/bin/cdpp/tox-completion.bash
 }
-define_cdpp_aliases
+
+true
+

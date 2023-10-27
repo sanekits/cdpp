@@ -47,6 +47,7 @@ _cdselect() {
     done
 }
 
+alias .-='builtin pushd "${OLDPWD}" &>/dev/null'
 alias .1='builtin cd ..'
 alias .2='builtin pushd ../.. &>/dev/null'
 alias .3='builtin pushd ../../.. &>/dev/null'
