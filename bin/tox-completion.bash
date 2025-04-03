@@ -7,7 +7,7 @@
 # you set $TOXHOME=[dir] before sourcing tox-completion.bash
 
 python_ident() {
-    for py_candidate in python3.{12..6} python; do
+    for py_candidate in python3.{16..6} python; do
         which "${py_candidate}" &>/dev/null || continue
         (
             pyhome_loc=$("$py_candidate" -c 'import os; print(os.environ.get("HOME"));' 2>/dev/null)
