@@ -2,7 +2,7 @@
 
 # Running cdpp-version.sh is the correct way to
 # get the home install path for the tool
-KitVersion=1.0.4
+KitVersion=1.0.5
 
 # The shellkit/ tooling naturally evolves out from under the dependent kits.  ShellkitSetupVers allows
 # detecting the need for refresh of templates/* derived files.  To bump the root version, 

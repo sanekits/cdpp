@@ -33,18 +33,18 @@ This tool replaces the default `cd` behavior with something that works the same 
 ## Installation:
 
 ```
-curl -L https://github.com/sanekits/cdpp/releases/download/1.0.4/cdpp-setup-1.0.4.sh \
+curl -L https://github.com/sanekits/cdpp/releases/download/1.0.5/cdpp-setup-1.0.5.sh \
     -o ~/tmp$$.sh && bash ~/tmp$$.sh && rm ~/tmp$$.sh
 ```
 
 
 ### Alternate method:
 
-- Download the [latest version of `cdpp-setup-1.0.4.sh`](https://github.com/sanekits/cdpp/releases/latest)
+- Download the [latest version of `cdpp-setup-1.0.5.sh`](https://github.com/sanekits/cdpp/releases/latest)
 
 - Run the self-extracting setup:
 ```console
-user@laptop$ cd ~/Downloads && ./cdpp-setup-1.0.4.sh
+user@laptop$ cd ~/Downloads && ./cdpp-setup-1.0.5.sh
 ```
 
 ### Configuration *(Optional)*
