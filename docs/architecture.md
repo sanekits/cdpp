@@ -13,7 +13,7 @@ graph TD
     C -->|Yes| D[builtin cd]
     C -->|No| E{CDPATH resolution?}
     E -->|Yes| D
-    E -->|No| F[tox index search]
+    E -->|No| F[navdex index search]
     F --> G{Single match?}
     G -->|Yes| H[Auto-navigate]
     G -->|No| I[Interactive menu]
@@ -27,7 +27,7 @@ graph TD
 1. **Standard `cd` pass-through**: Simple paths like `cd /usr/bin` or `cd ../foo` work exactly as normal
 2. **CDPATH enhancement**: Searches common directories without requiring full paths
 3. **Smart pushd**: Automatically uses `pushd` for "distant" directory changes to maintain navigation history
-4. **Index-based navigation**: Falls back to `tox` index search when CDPATH fails
+4. **Index-based navigation**: Falls back to `navdex` index search when CDPATH fails
 5. **Interactive disambiguation**: Presents menu when multiple matches exist
 
 ### Command Flow
@@ -37,7 +37,7 @@ sequenceDiagram
     participant User
     participant cdpp
     participant CDPATH
-    participant tox
+    participant navdex
     participant builtin_cd
     
     User->>cdpp: cd [args]
@@ -48,12 +48,12 @@ sequenceDiagram
         cdpp->>CDPATH: Search path
         CDPATH->>builtin_cd: Navigate if found
     else Index search
-        cdpp->>tox: Search index
+        cdpp->>navdex: Search index
         alt Multiple matches
-            tox->>User: Present menu
-            User->>tox: Select option
+            navdex->>User: Present menu
+            User->>navdex: Select option
         end
-        tox->>builtin_cd: Navigate to result
+        navdex->>builtin_cd: Navigate to result
     end
     builtin_cd->>User: Directory changed
 ```
@@ -78,7 +78,7 @@ graph LR
    - Sets up aliases (`.1`, `.2`, etc.)
    - Configures CDPATH helpers
    
-2. **`tox`**: Python-based index search utility
+2. **`navdex`**: Python-based index search utility
    - Maintains directory index files
    - Performs fuzzy matching
    - Handles interactive menu selection
@@ -123,7 +123,7 @@ sequenceDiagram
 graph TD
     A[cdpp] --> B[Bash 4.0+]
     A --> C[Python 3.x]
-    A --> D[tox utility]
+    A --> D[navdex utility]
     D --> C
     A --> E[Standard Unix tools]
     E --> F[grep]
@@ -134,7 +134,7 @@ graph TD
 ### Core Requirements
 
 - **Bash 4.0+**: Required for associative arrays and modern syntax
-- **Python 3.x**: Powers the `tox` index search utility
+- **Python 3.x**: Powers the `navdex` index search utility
 - **Standard Unix utilities**: grep, sed, awk for text processing
 
 ### Optional Dependencies
@@ -145,7 +145,7 @@ graph TD
 ### Index Files
 
 The system maintains index files for directory lookup:
-- **`~/.tox-index`**: Default top-level directory index
+- **`~/.navdex-index`**: Default top-level directory index
 - **Sub-indexes**: Project-specific indexes referenced from main index
 - Format: Plain text, one directory path per line
 
@@ -159,7 +159,7 @@ The system maintains index files for directory lookup:
    - Inconsistent error handling patterns
    - Missing shellcheck compliance in some areas
 
-2. **Python Component (`tox`)**
+2. **Python Component (`navdex`)**
    - Likely uses older Python 2.x patterns
    - May lack type hints
    - Error handling could be more robust
@@ -255,12 +255,12 @@ The core `cd` function intercepts all directory change commands and applies logi
 1. Parse arguments for special flags (`-a`, `--help`, etc.)
 2. Check if argument is a simple/standard path
 3. Attempt CDPATH resolution
-4. Fall back to `tox` index search
+4. Fall back to `navdex` index search
 5. Determine if `pushd` should be used (based on "distance")
 6. Execute the actual directory change
 7. Update index if needed
 
-### The `tox` Utility
+### The `navdex` Utility
 
 Python script that manages the directory index:
 

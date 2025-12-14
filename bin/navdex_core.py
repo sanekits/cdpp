@@ -1,4 +1,4 @@
-# tox_core.py
+# navdex_core.py
 import os
 import sys
 import subprocess
@@ -18,7 +18,7 @@ except:
 
 def normalize_path(path:str, to_unix=True) -> str:
     '''
-    In general within tox_core, we only deal with Unix paths.  But when we're calling a Windows api, we
+    In general within navdex_core, we only deal with Unix paths.  But when we're calling a Windows api, we
     must translate to Windows pathnames.  So this module goes both directions on Windows.  On real unix,
     we just return the `path` arg with no work done.
     '''
@@ -32,17 +32,17 @@ def normalize_path(path:str, to_unix=True) -> str:
 
 
 import logging
-logging.basicConfig(filename=f"{os.environ.get('HOME','/tmp')}/.tox_core.log",
+logging.basicConfig(filename=f"{os.environ.get('HOME','/tmp')}/.navdex_core.log",
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
                             level=logging.DEBUG)
 
 
-tox_core_root = normalize_path(os.path.dirname(os.path.realpath(__file__)),to_unix=True)
-logging.info(f"tox startup, args={sys.argv}, cwd={os.getcwd()}, __file__={__file__}")
+navdex_core_root = normalize_path(os.path.dirname(os.path.realpath(__file__)),to_unix=True)
+logging.info(f"navdex startup, args={sys.argv}, cwd={os.getcwd()}, __file__={__file__}")
 
-sys.path.insert(0, tox_core_root)
+sys.path.insert(0, navdex_core_root)
 
 
 from io import StringIO
@@ -54,8 +54,8 @@ import shutil
 from subprocess import call
 from setutils import IndexedSet
 
-toxRootKey:str = "ToxSysRoot"
-file_sys_root:str = os.getenv(toxRootKey, "/")
+navdexRootKey:str = "NavdexSysRoot"
+file_sys_root:str = os.getenv(navdexRootKey, "/")
 # Swap this for chroot-like testing
 
 stub_counter:int =0
@@ -84,7 +84,7 @@ class UserBadEntryTrap(UserTrap):
 class AddEntryAlreadyPresent(BaseException):
     ...
 
-indexFileBase:str = ".tox-index"
+indexFileBase:str = ".navdex-index"
 
 home_path:str=normalize_path(os.environ.get('HOME',None),to_unix=True)
 
@@ -284,7 +284,7 @@ class IndexContent(list):
 
 
 class AutoContent(list):
-    """ Reader/parser of the .tox-auto files """
+    """ Reader/parser of the .navdex-auto files """
 
     def __init__(self, path):
         self.path = path
@@ -350,7 +350,7 @@ def ownerCheck(xdir:str, filename:str, only_mine:bool) -> bool:
 
 
 def findIndex(xdir:str=None, only_mine:bool=True) -> IndexContent:
-    """Find the index containing current dir or 'xdir' if supplied.  Return HOME/.tox-index as a last resort, or None if there's no indices whatsoever.
+    """Find the index containing current dir or 'xdir' if supplied.  Return HOME/.navdex-index as a last resort, or None if there's no indices whatsoever.
 
     only_mine: ignore indices which don't have $USER as owner on the file.
     """
@@ -732,8 +732,8 @@ def ensureHomeIndex():
     loc = "/".join((environ_path("HOME"), indexFileBase))
     if not isfile(loc):
         with open(normalize_path(loc,to_unix=False), "w") as ff:
-            sys.stderr.write("Tox first-time initialization: creating %s\n" % loc)
-            ff.write("# This is your HOME dir .tox-index, try 'to --help' \n")
+            sys.stderr.write("Navdex first-time initialization: creating %s\n" % loc)
+            ff.write("# This is your HOME dir .navdex-index, try 'to --help' \n")
 
 
 def createIndexHere():
@@ -750,18 +750,18 @@ def cleanIndex():
     ix.clean()
 
 
-def hasToxAuto(dir:str) -> bool:
-    xf = "/".join([dir, ".tox-auto"])
+def hasNavdexAuto(dir:str) -> bool:
+    xf = "/".join([dir, ".navdex-auto"])
     return isfile(xf), xf
 
 
-def editToxAutoHere(templateFile:str) -> None:
-    has, _ = hasToxAuto(".")
+def editNavdexAutoHere(templateFile:str) -> None:
+    has, _ = hasNavdexAuto(".")
     if not has:
         # Create from template file first time:
-        shutil.copyfile(templateFile, "./.tox-auto")
+        shutil.copyfile(templateFile, "./.navdex-auto")
     # Invoke the editor:
-    print("!!$EDITOR %s" % ".tox-auto")
+    print("!!$EDITOR %s" % ".navdex-auto")
 
 
 def printGrep(pattern, ostream=None):
@@ -775,7 +775,7 @@ def printGrep(pattern, ostream=None):
         dir=entry[0]
         dir = ix.absPath(dir)
         ostream.write(dir)
-        has, autoPath = hasToxAuto(dir)
+        has, autoPath = hasNavdexAuto(dir)
         if has:
             cnt = AutoContent(autoPath)
             ostream.write(" [.TAGS: %s] " % (",".join(cnt.tags())))
@@ -861,14 +861,14 @@ if __name__ == "__main__":
     #     "--autoedit",
     #     action="store_true",
     #     dest="autoedit",
-    #     help="Edit the local .tox-auto, create first if missing",
+    #     help="Edit the local .navdex-auto, create first if missing",
     # )
     p.add_argument(
         "-g",
         "--grep",
         action="store_true",
         dest="do_grep",
-        help="Match dirnames and .tox-auto search properties against a regular expression",
+        help="Match dirnames and .navdex-auto search properties against a regular expression",
     )
     # p.add_argument("patterns", nargs='?', help="Pattern(s) to match. If final arg is integer, it is treated as list index. ")
     # p.add_argument(
@@ -892,7 +892,7 @@ if __name__ == "__main__":
         sys.exit(0 if vv else 1)
 
     # if args.autoedit:
-    #     editToxAutoHere("/".join([tox_core_root, "tox-auto-default-template"]))
+    #     editNavdexAutoHere("/".join([navdex_core_root, "navdex-auto-default-template"]))
     #     sys.exit(0)
 
     if args.create_ix_here:
