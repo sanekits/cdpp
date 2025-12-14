@@ -19,7 +19,7 @@ This tool replaces the default `cd` behavior with something that works the same 
 - Add a long dir to the index:
     ```console
     tjoe@my-pc:.../etc$  cd -a
-    /home/tjoe/projects/fishhead/common/jsvsa/build/etc added/updated to /home/tjoe11/.tox-index:1
+    /home/tjoe/projects/fishhead/common/jsvsa/build/etc added/updated to /home/tjoe11/.navdex-index:1
     ```
   Afterwards, you can go back to that dir with just `cd jsv` -- or any unique sequence of chars which match the directory name
 
@@ -67,7 +67,7 @@ For a user willing to do a bit of mindset-and-habit-changing, `cd++` can greatly
 - `cd Down<tab>` --> Issued from 10 levels deep, let's go up to **~/Downloads** without typing the `~/` or the full dir name.  Let `CDPATH` and autocomplete do what they're good at.
 - `.3` --> Don't ever type `../../../` again.  There's aliases for `.1` thru `.6`.  *(Why isn't this built-in to `bash`?)*
 - `dirs` --> List contents of bash `DIRSTACK` and choose one of the recent entries to go back there.
-- `cd site nsmith` --> For more obscure *(but indexed!)* project-specific dirs, first do a smart search for `*site*` and then another smart search for the sub-indexed directory matching `*nsmith*`.  You can have as many indexes as you like.<br />The default top-level index is `~/.tox-index`.  You decide what gets indexed. If `cd` can't resolve its argument with `CDPATH`, it forwards the command to `tox`, which is a python-powered index search and maintenance utility.<br />  If `tox` finds multiple candidate matches, they're presented to the user for quick-pick menu selection.
+- `cd site nsmith` --> For more obscure *(but indexed!)* project-specific dirs, first do a smart search for `*site*` and then another smart search for the sub-indexed directory matching `*nsmith*`.  You can have as many indexes as you like.<br />The default top-level index is `~/.navdex-index`.  You decide what gets indexed. If `cd` can't resolve its argument with `CDPATH`, it forwards the command to `navdex`, which is a python-powered index search and maintenance utility.<br />  If `navdex` finds multiple candidate matches, they're presented to the user for quick-pick menu selection.
 
 ## Also:
 
@@ -77,6 +77,6 @@ For a user willing to do a bit of mindset-and-habit-changing, `cd++` can greatly
 
 ## Tips:
 - If you think `cd` is doing the wrong thing, run `builtin cd <args>` to see if `bash` agrees with you.
-- `to` has its own `--help` and can be used independently of `cd++`
+- `navdex` has its own `--help` and can be used independently of `cd++`
 - The comments in `~/.cdpprc` can help you optimize for your working preferences.
 

@@ -50,7 +50,7 @@ cd() {
         $use_pushd && builtin pushd "$@" >/dev/null || builtin cd "$@";
     }
     [[ $? == 0 ]] && return;
-    set -f; tox_w "$@"
+    set -f; navdex_w "$@"
 }
 
 cdpath() {
@@ -167,10 +167,10 @@ alias cdex='cd_execute'
 
 
 [[ -f $HOME/.cdpprc ]] && source ${HOME}/.cdpprc
-export TOXHOME=${HOME}/.local/bin/cdpp
+export NAVDEXHOME=${HOME}/.local/bin/cdpp
 [[ $UID == 0 && -z $USER ]] && export USER=root
-[[ -f $HOME/.local/bin/cdpp/tox-completion.bash ]] && {
-    source $HOME/.local/bin/cdpp/tox-completion.bash
+[[ -f $HOME/.local/bin/cdpp/navdex-completion.bash ]] && {
+    source $HOME/.local/bin/cdpp/navdex-completion.bash
 }
 
 true

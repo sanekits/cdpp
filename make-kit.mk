@@ -19,8 +19,8 @@ kit_depends := \
 	bin/cdpprc \
 	bin/setutils.py \
 	bin/termios_proxy.py \
-	bin/tox_core.py \
-	bin/tox-completion.bash \
+	bin/navdex_core.py \
+	bin/navdex-completion.bash \
 
 
 .PHONY: publish publish-draft
